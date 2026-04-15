@@ -251,11 +251,11 @@ function ProjectGrid({ theme }: { theme: ThemeMode }) {
     <section ref={gridRef} className="px-5 pt-12 pb-32 md:px-8 md:pt-16 md:pb-40">
       <div className="mx-auto max-w-[92rem]">
         <div className="grid gap-5 md:grid-cols-12">
-          <motion.div style={{ y: heroY }} className={`md:col-span-8 overflow-hidden rounded-[1.5rem] border min-h-[34rem] ${card}`}>
+         <motion.div style={{ y: heroY }} className={`md:col-span-8 overflow-hidden rounded-[1.5rem] border ${card}`}>
             <img src={project2Hero} alt="Project 2 hero" className={img} />
           </motion.div>
 
-          <motion.div style={{ y: cardY }} className={`md:col-span-4 overflow-hidden rounded-[1.5rem] border min-h-[34rem] ${card}`}>
+         <motion.div style={{ y: cardY }} className={`md:col-span-4 overflow-hidden rounded-[1.5rem] border ${card}`}>
             <img src={project2Narrative} alt="Project 2 narrative" className={img} />
           </motion.div>
         </div>
