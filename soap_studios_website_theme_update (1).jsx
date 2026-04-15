@@ -237,6 +237,83 @@ function HeroRail({ theme }: { theme: ThemeMode }) {
 
 function ProjectGrid({ theme }: { theme: ThemeMode }) {
   const gridRef = useRef<HTMLElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: gridRef,
+    offset: ["start end", "end start"],
+  });
+
+  const heroY = useTransform(scrollYProgress, [0, 1], [22, -22]);
+  const cardY = useTransform(scrollYProgress, [0, 1], [12, -12]);
+
+  const card =
+    theme === "dark"
+      ? "border-white/10 bg-white/[0.02]"
+      : "border-black/10 bg-[#f3eee6] shadow-[0_20px_60px_rgba(0,0,0,0.12)]";
+
+  return (
+    <section ref={gridRef} className="px-5 pt-12 pb-32 md:px-8 md:pt-16 md:pb-40">
+      <div className="mx-auto max-w-[92rem]">
+        <div className="grid gap-5 md:grid-cols-12 items-start">
+          <motion.div
+            style={{ y: heroY }}
+            className={`col-span-12 md:col-span-8 self-start overflow-hidden rounded-[1.5rem] border ${card}`}
+          >
+            <img
+              src={project2Hero}
+              alt="Project 2 hero"
+              className="block w-full h-auto"
+            />
+          </motion.div>
+
+          <motion.div
+            style={{ y: cardY }}
+            className={`col-span-12 md:col-span-4 self-start overflow-hidden rounded-[1.5rem] border ${card}`}
+          >
+            <img
+              src={project2Narrative}
+              alt="Project 2 narrative"
+              className="block w-full h-auto"
+            />
+          </motion.div>
+
+          <motion.div
+            style={{ y: heroY }}
+            className={`col-span-12 md:col-span-4 self-start overflow-hidden rounded-[1.5rem] border ${card}`}
+          >
+            <img
+              src={project2Detail1}
+              alt="Project 2 detail 1"
+              className="block w-full h-auto"
+            />
+          </motion.div>
+
+          <motion.div
+            style={{ y: cardY }}
+            className={`col-span-12 md:col-span-4 self-start overflow-hidden rounded-[1.5rem] border ${card}`}
+          >
+            <img
+              src={project2Detail2}
+              alt="Project 2 detail 2"
+              className="block w-full h-auto"
+            />
+          </motion.div>
+
+          <motion.div
+            style={{ y: heroY }}
+            className={`col-span-12 md:col-span-4 self-start overflow-hidden rounded-[1.5rem] border ${card}`}
+          >
+            <img
+              src={project2Detail3}
+              alt="Project 2 detail 3"
+              className="block w-full h-auto"
+            />
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+  const gridRef = useRef<HTMLElement | null>(null);
   const { scrollYProgress } = useScroll({ target: gridRef, offset: ["start end", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], [22, -22]);
   const cardY = useTransform(scrollYProgress, [0, 1], [12, -12]);
