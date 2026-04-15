@@ -245,8 +245,7 @@ function ProjectGrid({ theme }: { theme: ThemeMode }) {
     ? "border-white/10 bg-white/[0.02]"
     : "border-black/10 bg-[#f3eee6] shadow-[0_20px_60px_rgba(0,0,0,0.12)]";
 
-  const img = "h-full w-full object-cover transition duration-700 ease-out hover:scale-[1.04] hover:brightness-[0.92]";
-
+  const img = "block w-full h-auto transition duration-700 ease-out hover:scale-[1.04] hover:brightness-[0.92]";
   return (
     <section ref={gridRef} className="px-5 pt-12 pb-32 md:px-8 md:pt-16 md:pb-40">
       <div className="mx-auto max-w-[92rem]">
