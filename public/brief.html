@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1C1A17">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Home Brief — Soap Studios</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #1C1A17;
+  --cream: #F0EBE1;
+  --gold: #C9A84C;
+  --dim: #9A9088;
+  --border: rgba(201,168,76,0.2);
+  --pill-border: rgba(240,235,225,0.18);
+  --pill-hover: rgba(240,235,225,0.06);
+}
+
+:root, html { background-color: #1C1A17; }
+html { background: var(--ink); scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--cream);
+  -webkit-box-shadow: 0 0 0px 1000px #1C1A17 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ── PROGRESS ── */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: var(--gold);
+  width: 0%;
+  transition: width 0.4s ease;
+  z-index: 100;
+}
+
+#wordmark {
+  position: fixed;
+  top: 28px; left: 36px;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* ── COVER ── */
+#cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 48px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.cover-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 32px;
+}
+
+.cover-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(44px, 8vw, 76px);
+  font-weight: 300;
+  line-height: 1.05;
+  color: var(--cream);
+  margin-bottom: 20px;
+}
+
+.cover-title em { font-style: italic; color: var(--gold); }
+
+.cover-sub {
+  font-size: 15px;
+  color: var(--dim);
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 56px;
+}
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  background: transparent;
+  padding: 16px 36px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-start:hover { background: var(--gold); color: var(--ink); }
+
+/* ── FORM BODY ── */
+#form-body { display: none; }
+
+/* ── QUESTION SCREEN ── */
+.q-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 48px;
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.q-screen.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.q-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.q-number {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.q-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--cream);
+  margin-bottom: 12px;
+}
+
+.q-hint {
+  font-size: 13px;
+  color: var(--dim);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.sub-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 10px;
+  margin-top: 28px;
+  display: block;
+}
+
+.field-label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+  display: block;
+  margin-bottom: 6px;
+  margin-top: 28px;
+}
+
+/* ── OPTIONS ── */
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.options.no-mb { margin-bottom: 0; }
+
+.opt { display: flex; align-items: center; cursor: pointer; }
+.opt input { display: none; }
+.opt-label {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--cream);
+  padding: 10px 20px;
+  border: 1px solid var(--pill-border);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  line-height: 1;
+}
+.opt:hover .opt-label {
+  border-color: rgba(201,168,76,0.4);
+  background: var(--pill-hover);
+}
+.opt input:checked + .opt-label {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201,168,76,0.07);
+}
+
+/* ── INPUTS ── */
+.q-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--pill-border);
+  color: var(--cream);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  padding: 12px 0;
+  outline: none;
+  transition: border-color 0.2s ease;
+  -webkit-appearance: none;
+  border-radius: 0;
+  margin-bottom: 28px;
+  display: block;
+}
+.q-input::placeholder { color: rgba(154,144,136,0.5); }
+.q-input:focus { border-bottom-color: var(--gold); }
+
+.q-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--pill-border);
+  color: var(--cream);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  padding: 12px 0;
+  outline: none;
+  resize: none;
+  min-height: 80px;
+  transition: border-color 0.2s ease;
+  border-radius: 0;
+  line-height: 1.65;
+  margin-bottom: 32px;
+  display: block;
+}
+.q-textarea::placeholder { color: rgba(154,144,136,0.5); }
+.q-textarea:focus { border-bottom-color: var(--gold); }
+
+/* ── NEXT BTN ── */
+.btn-next {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  background: transparent;
+  padding: 13px 32px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  margin-top: 8px;
+}
+.btn-next:hover { background: var(--gold); color: var(--ink); }
+
+/* ── ATMOSPHERE PAIRS ── */
+.atmos-group { display: flex; flex-direction: column; gap: 24px; margin-bottom: 36px; }
+.atmos-pair-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 10px;
+}
+
+/* ── SUBMIT ── */
+#submit-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 48px;
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+#submit-screen.visible { opacity: 1; transform: translateY(0); }
+
+.submit-inner { max-width: 640px; margin: 0 auto; width: 100%; }
+
+.submit-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(30px, 5vw, 48px);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+.submit-title em { font-style: italic; color: var(--gold); }
+
+.submit-sub {
+  font-size: 14px;
+  color: var(--dim);
+  margin-bottom: 48px;
+  line-height: 1.7;
+  max-width: 440px;
+}
+
+.btn-submit {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  background: transparent;
+  padding: 16px 44px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-submit:hover { background: var(--gold); color: var(--ink); }
+.btn-submit:disabled { opacity: 0.4; cursor: default; }
+
+/* ── SUCCESS ── */
+#success-screen {
+  display: none;
+  min-height: 60vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 80px 48px;
+  gap: 20px;
+}
+#success-screen.visible { display: flex; }
+.success-line { width: 1px; height: 48px; background: var(--gold); margin-bottom: 8px; }
+.success-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--cream); }
+.success-sub { font-size: 13px; color: var(--dim); line-height: 1.7; }
+
+/* ── MOBILE ── */
+@media (max-width: 600px) {
+  #cover, .q-screen, #submit-screen { padding: 64px 24px; }
+  #wordmark { left: 24px; top: 22px; }
+  .opt-label { font-size: 13px; padding: 9px 16px; }
+  .q-text { font-size: clamp(24px, 7vw, 32px); }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div id="wordmark">Soap Studios</div>
+
+<!-- ══ COVER ══ -->
+<div id="cover">
+  <div class="cover-eyebrow">Client Brief · Soap Studios</div>
+  <h1 class="cover-title">Tell me about<br>your <em>space.</em></h1>
+  <p class="cover-sub">A few questions before we meet. Fill in what you can, leave the rest. No wrong answers — this just helps me show up prepared.</p>
+  <button class="btn-start" onclick="startForm()">Begin &rarr;</button>
+</div>
+
+<!-- ══ FORM ══ -->
+<div id="form-body">
+<form id="brief-form" action="https://formspree.io/f/mjgdorzj" method="POST">
+
+  <input type="hidden" name="_subject" id="field-subject" value="New Brief — Soap Studios">
+  <input type="hidden" name="client_summary" id="field-summary" value="">
+  <input type="hidden" name="track" id="field-track" value="">
+  <input type="hidden" name="_gotcha" value="">
+
+  <!-- ════════════════════════════
+       INTAKE — ALL TRACKS
+  ════════════════════════════ -->
+
+  <!-- Q-A: Name -->
+  <div class="q-screen" id="qa">
+    <div class="q-inner">
+      <span class="q-number">Let's start</span>
+      <div class="q-text">What's your name?</div>
+      <input type="text" name="full_name" class="q-input" placeholder="Full name">
+      <div class="q-text">What should Jayden call you?</div>
+      <p class="q-hint">Preferred name or nickname.</p>
+      <input type="text" name="preferred_name" class="q-input" placeholder="e.g. Tom, Wei, Aisyah">
+      <div class="q-text">Phone or email?</div>
+      <p class="q-hint">So Jayden can follow up directly.</p>
+      <input type="text" name="contact" class="q-input" placeholder="018-xxx xxxx or your@email.com">
+      <button type="button" class="btn-next" onclick="nextQ('qa','qb')">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Q-B: Project Type (branching point) -->
+  <div class="q-screen" id="qb">
+    <div class="q-inner">
+      <span class="q-number">The project</span>
+      <div class="q-text">What kind of space are we working on?</div>
+      <div class="options">
+        <label class="opt"><input type="radio" name="project_type" value="Private home" onclick="setTrack('home')"><span class="opt-label">Private home</span></label>
+        <label class="opt"><input type="radio" name="project_type" value="Condominium / apartment" onclick="setTrack('home')"><span class="opt-label">Condominium / apartment</span></label>
+        <label class="opt"><input type="radio" name="project_type" value="Hospitality / hotel" onclick="setTrack('home')"><span class="opt-label">Hospitality / hotel</span></label>
+        <label class="opt"><input type="radio" name="project_type" value="Restaurant / café" onclick="setTrack('restaurant')"><span class="opt-label">Restaurant / café</span></label>
+        <label class="opt"><input type="radio" name="project_type" value="Gym / wellness" onclick="setTrack('gym')"><span class="opt-label">Gym / wellness</span></label>
+        <label class="opt"><input type="radio" name="project_type" value="Office / studio" onclick="setTrack('office')"><span class="opt-label">Office / studio</span></label>
+        <label class="opt"><input type="radio" name="project_type" value="Retail" onclick="setTrack('retail')"><span class="opt-label">Retail</span></label>
+        <label class="opt"><input type="radio" name="project_type" value="Other" onclick="setTrack('home')"><span class="opt-label">Other</span></label>
+      </div>
+      <button type="button" class="btn-next" onclick="nextQ('qb','qc')">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Q-C: Property Details -->
+  <div class="q-screen" id="qc">
+    <div class="q-inner">
+      <span class="q-number">The property</span>
+      <div class="q-text">Tell me about the space.</div>
+      <p class="q-hint">Fill in what you know — nothing is binding.</p>
+
+      <label class="field-label" style="margin-top:0;">Location / area</label>
+      <input type="text" name="location" class="q-input" placeholder="e.g. Mont Kiara, KL — or full address">
+
+      <label class="field-label">Size (sqft)</label>
+      <input type="text" name="sqft" class="q-input" placeholder="Approximate is fine">
+
+      <!-- Property type — swapped by JS based on track -->
+      <label class="field-label">Property type</label>
+      <div class="options no-mb" id="qc-property-types">
+        <!-- populated by renderPropertyTypes() -->
+      </div>
+
+      <!-- Condition — swapped by JS -->
+      <label class="field-label" style="margin-top:20px;">Condition</label>
+      <div class="options" id="qc-conditions" style="margin-bottom:32px;">
+        <!-- populated by renderConditions() -->
+      </div>
+
+      <button type="button" class="btn-next" onclick="handleIntakeNext()">Next &rarr;</button>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════
+       TRACK: PRIVATE HOME
+  ════════════════════════════ -->
+
+  <div class="track-home">
+
+    <div class="q-screen" id="h1">
+      <div class="q-inner">
+        <span class="q-number">Who's moving in?</span>
+        <div class="q-text">Who will be living in the home?</div>
+        <p class="q-hint">Tick all that apply.</p>
+        <div class="options">
+          <label class="opt"><input type="checkbox" name="household" value="Just me"><span class="opt-label">Just me</span></label>
+          <label class="opt"><input type="checkbox" name="household" value="Me and a partner"><span class="opt-label">Me and a partner</span></label>
+          <label class="opt"><input type="checkbox" name="household" value="Family with kids"><span class="opt-label">Family — with kids</span></label>
+          <label class="opt"><input type="checkbox" name="household" value="With parents"><span class="opt-label">With parents</span></label>
+          <label class="opt"><input type="checkbox" name="household" value="With housemates"><span class="opt-label">With housemates</span></label>
+          <label class="opt"><input type="checkbox" name="household" value="Helper lives in"><span class="opt-label">Helper lives in</span></label>
+          <label class="opt"><input type="checkbox" name="household" value="Pets"><span class="opt-label">Pets</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('h1','h2')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h2">
+      <div class="q-inner">
+        <span class="q-number">Daily life</span>
+        <div class="q-text">How often do you cook at home?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="cooking" value="Every day"><span class="opt-label">Every day</span></label>
+          <label class="opt"><input type="radio" name="cooking" value="Few times a week"><span class="opt-label">A few times a week</span></label>
+          <label class="opt"><input type="radio" name="cooking" value="Weekends only"><span class="opt-label">Weekends only</span></label>
+          <label class="opt"><input type="radio" name="cooking" value="Rarely"><span class="opt-label">Rarely — mostly takeout</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('h2','h3')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h3">
+      <div class="q-inner">
+        <span class="q-number">Evenings</span>
+        <div class="q-text">How do you usually spend evenings at home?</div>
+        <p class="q-hint">Tick all that apply.</p>
+        <div class="options">
+          <label class="opt"><input type="checkbox" name="evenings" value="Cooking and eating"><span class="opt-label">Cooking and eating</span></label>
+          <label class="opt"><input type="checkbox" name="evenings" value="Watching TV"><span class="opt-label">Watching TV / streaming</span></label>
+          <label class="opt"><input type="checkbox" name="evenings" value="Working late"><span class="opt-label">Working late</span></label>
+          <label class="opt"><input type="checkbox" name="evenings" value="Reading quietly"><span class="opt-label">Reading / quiet time</span></label>
+          <label class="opt"><input type="checkbox" name="evenings" value="Entertaining"><span class="opt-label">Entertaining friends</span></label>
+          <label class="opt"><input type="checkbox" name="evenings" value="Working out"><span class="opt-label">Working out</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('h3','h4')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h4">
+      <div class="q-inner">
+        <span class="q-number">Work</span>
+        <div class="q-text">Do you work from home?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="wfh" value="Yes most days"><span class="opt-label">Yes — most days</span></label>
+          <label class="opt"><input type="radio" name="wfh" value="Occasionally"><span class="opt-label">Occasionally</span></label>
+          <label class="opt"><input type="radio" name="wfh" value="No"><span class="opt-label">No</span></label>
+          <label class="opt"><input type="radio" name="wfh" value="Travel frequently"><span class="opt-label">I travel frequently</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('h4','h5')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h5">
+      <div class="q-inner">
+        <span class="q-number">Guests</span>
+        <div class="q-text">How often do you have people over?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="guests" value="Regularly"><span class="opt-label">Regularly — dinners, gatherings</span></label>
+          <label class="opt"><input type="radio" name="guests" value="Occasionally"><span class="opt-label">Occasionally</span></label>
+          <label class="opt"><input type="radio" name="guests" value="Rarely"><span class="opt-label">Rarely</span></label>
+          <label class="opt"><input type="radio" name="guests" value="Almost never"><span class="opt-label">Almost never</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('h5','h6')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h6">
+      <div class="q-inner">
+        <span class="q-number">The feeling</span>
+        <div class="q-text">In a sentence — what should this home feel like?</div>
+        <p class="q-hint">A mood, a word, a place. Don't overthink it.</p>
+        <input type="text" name="house_feel" class="q-input" placeholder="e.g. Calm but alive. Like a proper home, not a showroom.">
+        <button type="button" class="btn-next" onclick="nextQ('h6','h7')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h7">
+      <div class="q-inner">
+        <span class="q-number">Atmosphere</span>
+        <div class="q-text">How should the space make you feel?</div>
+        <p class="q-hint">Pick one from each pair — whichever pulls stronger.</p>
+        <div class="atmos-group">
+          <div>
+            <div class="atmos-pair-label">Energy</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="atmos_energy" value="Calm and still"><span class="opt-label">Calm and still</span></label>
+              <label class="opt"><input type="radio" name="atmos_energy" value="Alive and energising"><span class="opt-label">Alive and energising</span></label>
+              <label class="opt"><input type="radio" name="atmos_energy" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+          <div>
+            <div class="atmos-pair-label">Familiarity</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="atmos_familiarity" value="Warm and familiar"><span class="opt-label">Warm and familiar</span></label>
+              <label class="opt"><input type="radio" name="atmos_familiarity" value="Fresh and surprising"><span class="opt-label">Fresh and surprising</span></label>
+              <label class="opt"><input type="radio" name="atmos_familiarity" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+          <div>
+            <div class="atmos-pair-label">Expression</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="atmos_expression" value="Quiet and understated"><span class="opt-label">Quiet and understated</span></label>
+              <label class="opt"><input type="radio" name="atmos_expression" value="Bold and expressive"><span class="opt-label">Bold and expressive</span></label>
+              <label class="opt"><input type="radio" name="atmos_expression" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('h7','h8')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h8">
+      <div class="q-inner">
+        <span class="q-number">What to leave behind</span>
+        <div class="q-text">Anything you definitely don't want in this space?</div>
+        <p class="q-hint">A look, a material, a feeling from a past home. Hard nos only.</p>
+        <textarea name="leave_behind" class="q-textarea" placeholder="e.g. Heavy dark furniture. Anything that feels like a show unit. Too many open shelves."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('h8','h9')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h9">
+      <div class="q-inner">
+        <span class="q-number">Materials</span>
+        <div class="q-text">What materials speak to you?</div>
+        <p class="q-hint">Tick all that apply.</p>
+        <div class="options">
+          <label class="opt"><input type="checkbox" name="materials" value="Timber / wood"><span class="opt-label">Timber / wood</span></label>
+          <label class="opt"><input type="checkbox" name="materials" value="Natural stone"><span class="opt-label">Natural stone</span></label>
+          <label class="opt"><input type="checkbox" name="materials" value="Plaster / limewash"><span class="opt-label">Plaster / limewash</span></label>
+          <label class="opt"><input type="checkbox" name="materials" value="Microcement"><span class="opt-label">Microcement</span></label>
+          <label class="opt"><input type="checkbox" name="materials" value="Rattan / woven"><span class="opt-label">Rattan / woven</span></label>
+          <label class="opt"><input type="checkbox" name="materials" value="Light tiles"><span class="opt-label">Light tiles</span></label>
+          <label class="opt"><input type="checkbox" name="materials" value="Dark tiles"><span class="opt-label">Dark tiles</span></label>
+          <label class="opt"><input type="checkbox" name="materials" value="Concrete"><span class="opt-label">Concrete</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('h9','h10')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h10">
+      <div class="q-inner">
+        <span class="q-number">Kitchen</span>
+        <div class="q-text">What matters most in the kitchen?</div>
+        <p class="q-hint">Tick all that apply.</p>
+        <div class="options">
+          <label class="opt"><input type="checkbox" name="kitchen" value="Lots of storage"><span class="opt-label">Lots of storage</span></label>
+          <label class="opt"><input type="checkbox" name="kitchen" value="Good counter space"><span class="opt-label">Good counter space</span></label>
+          <label class="opt"><input type="checkbox" name="kitchen" value="Coffee nook"><span class="opt-label">Coffee / appliance nook</span></label>
+          <label class="opt"><input type="checkbox" name="kitchen" value="Dining island"><span class="opt-label">Dining island</span></label>
+          <label class="opt"><input type="checkbox" name="kitchen" value="Open to living"><span class="opt-label">Open to living area</span></label>
+          <label class="opt"><input type="checkbox" name="kitchen" value="Enclosed"><span class="opt-label">Enclosed / private</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('h10','h11')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h11">
+      <div class="q-inner">
+        <span class="q-number">Bathroom</span>
+        <div class="q-text">How do you use your bathroom?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="bathroom_use" value="Quick showers"><span class="opt-label">Quick showers — in and out</span></label>
+          <label class="opt"><input type="radio" name="bathroom_use" value="Long showers"><span class="opt-label">Long showers to decompress</span></label>
+          <label class="opt"><input type="radio" name="bathroom_use" value="Occasional baths"><span class="opt-label">I bath occasionally</span></label>
+          <label class="opt"><input type="radio" name="bathroom_use" value="Full spa feel"><span class="opt-label">I want a proper spa feel</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('h11','h12')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h12">
+      <div class="q-inner">
+        <span class="q-number">Budget</span>
+        <div class="q-text">What's your rough renovation budget?</div>
+        <p class="q-hint">No commitment — just helps me understand the frame.</p>
+        <div class="options">
+          <label class="opt"><input type="radio" name="budget" value="Under RM 100k"><span class="opt-label">Under RM 100k</span></label>
+          <label class="opt"><input type="radio" name="budget" value="RM 100–150k"><span class="opt-label">RM 100–150k</span></label>
+          <label class="opt"><input type="radio" name="budget" value="RM 150–250k"><span class="opt-label">RM 150–250k</span></label>
+          <label class="opt"><input type="radio" name="budget" value="RM 250k+"><span class="opt-label">RM 250k+</span></label>
+          <label class="opt"><input type="radio" name="budget" value="Not sure yet"><span class="opt-label">Not sure yet</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('h12','h13')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h13">
+      <div class="q-inner">
+        <span class="q-number">Timeline</span>
+        <div class="q-text">When are you hoping to move in?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="timeline" value="ASAP"><span class="opt-label">As soon as possible</span></label>
+          <label class="opt"><input type="radio" name="timeline" value="3–4 months"><span class="opt-label">3–4 months from keys</span></label>
+          <label class="opt"><input type="radio" name="timeline" value="6 months"><span class="opt-label">6 months from keys</span></label>
+          <label class="opt"><input type="radio" name="timeline" value="No hard deadline"><span class="opt-label">No hard deadline — do it right</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('h13','h14')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h14">
+      <div class="q-inner">
+        <span class="q-number">References</span>
+        <div class="q-text">Any spaces that have made you feel at home?</div>
+        <p class="q-hint">A hotel, a friend's place, a café. A name or just a feeling.</p>
+        <textarea name="references" class="q-textarea" placeholder="The lobby at Capella. My grandmother's house. That restaurant in Bangsar with the warm lighting..."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('h14','h15')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="h15">
+      <div class="q-inner">
+        <span class="q-number">Last one</span>
+        <div class="q-text">Anything else we should know before we meet?</div>
+        <p class="q-hint">Things that matter to you, past experiences, whatever hasn't been asked.</p>
+        <textarea name="anything_else" class="q-textarea" placeholder="Take your time."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('h15','submit-screen')">Almost done &rarr;</button>
+      </div>
+    </div>
+
+  </div><!-- end .track-home -->
+
+
+  <!-- ════════════════════════════
+       TRACK: RESTAURANT / CAFÉ
+  ════════════════════════════ -->
+
+  <div class="track-restaurant">
+
+    <div class="q-screen" id="r1">
+      <div class="q-inner">
+        <span class="q-number">The concept</span>
+        <div class="q-text">How would you describe what you're opening?</div>
+        <p class="q-hint">Cuisine, format, price point — whatever comes naturally.</p>
+        <textarea name="r_concept" class="q-textarea" placeholder="e.g. A casual Japanese ramen bar, counter seating, under RM 30 a bowl. Or a fine dining tasting menu concept, 30 covers, reservation only."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('r1','r2')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="r2">
+      <div class="q-inner">
+        <span class="q-number">The guest</span>
+        <div class="q-text">Who is this space designed for?</div>
+        <p class="q-hint">Paint a picture of your ideal customer.</p>
+        <textarea name="r_guest" class="q-textarea" placeholder="e.g. Young professionals, 25–35, design-conscious, willing to spend. Or families on weekend brunches. Or the after-work crowd."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('r2','r3')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="r3">
+      <div class="q-inner">
+        <span class="q-number">Operations</span>
+        <div class="q-text">How will the space run day to day?</div>
+
+        <span class="sub-label" style="margin-top:0;">Seating capacity (target)</span>
+        <input type="text" name="r_capacity" class="q-input" placeholder="e.g. 40 pax indoor, 10 outdoor">
+
+        <span class="sub-label">Operating hours</span>
+        <input type="text" name="r_hours" class="q-input" placeholder="e.g. Lunch and dinner, 11am–10pm daily">
+
+        <span class="sub-label">Service style</span>
+        <div class="options">
+          <label class="opt"><input type="radio" name="r_service" value="Table service"><span class="opt-label">Table service</span></label>
+          <label class="opt"><input type="radio" name="r_service" value="Counter / bar"><span class="opt-label">Counter / bar</span></label>
+          <label class="opt"><input type="radio" name="r_service" value="Self-order"><span class="opt-label">Self-order</span></label>
+          <label class="opt"><input type="radio" name="r_service" value="Mixed"><span class="opt-label">Mixed</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('r3','r4')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="r4">
+      <div class="q-inner">
+        <span class="q-number">Zones needed</span>
+        <div class="q-text">What spaces does the restaurant need?</div>
+        <p class="q-hint">Tick all that apply.</p>
+        <div class="options">
+          <label class="opt"><input type="checkbox" name="r_zones" value="Main dining"><span class="opt-label">Main dining</span></label>
+          <label class="opt"><input type="checkbox" name="r_zones" value="Private dining room"><span class="opt-label">Private dining room</span></label>
+          <label class="opt"><input type="checkbox" name="r_zones" value="Bar / drinks counter"><span class="opt-label">Bar / drinks counter</span></label>
+          <label class="opt"><input type="checkbox" name="r_zones" value="Open kitchen"><span class="opt-label">Open kitchen</span></label>
+          <label class="opt"><input type="checkbox" name="r_zones" value="Takeaway counter"><span class="opt-label">Takeaway counter</span></label>
+          <label class="opt"><input type="checkbox" name="r_zones" value="Outdoor seating"><span class="opt-label">Outdoor seating</span></label>
+          <label class="opt"><input type="checkbox" name="r_zones" value="Waiting area"><span class="opt-label">Waiting area</span></label>
+          <label class="opt"><input type="checkbox" name="r_zones" value="Staff room"><span class="opt-label">Staff room</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('r4','r5')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="r5">
+      <div class="q-inner">
+        <span class="q-number">Atmosphere</span>
+        <div class="q-text">How should guests feel when they walk in?</div>
+        <p class="q-hint">Pick one from each pair.</p>
+        <div class="atmos-group">
+          <div>
+            <div class="atmos-pair-label">Energy</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="r_energy" value="Calm and intimate"><span class="opt-label">Calm and intimate</span></label>
+              <label class="opt"><input type="radio" name="r_energy" value="Buzzy and social"><span class="opt-label">Buzzy and social</span></label>
+              <label class="opt"><input type="radio" name="r_energy" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+          <div>
+            <div class="atmos-pair-label">Lighting mood</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="r_lighting" value="Bright and open"><span class="opt-label">Bright and open</span></label>
+              <label class="opt"><input type="radio" name="r_lighting" value="Dim and moody"><span class="opt-label">Dim and moody</span></label>
+              <label class="opt"><input type="radio" name="r_lighting" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+          <div>
+            <div class="atmos-pair-label">Character</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="r_character" value="Raw and honest"><span class="opt-label">Raw and honest</span></label>
+              <label class="opt"><input type="radio" name="r_character" value="Refined and polished"><span class="opt-label">Refined and polished</span></label>
+              <label class="opt"><input type="radio" name="r_character" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('r5','r6')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="r6">
+      <div class="q-inner">
+        <span class="q-number">Brand</span>
+        <div class="q-text">Do you have a brand identity already?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="r_brand" value="Yes — logo, colours, full identity"><span class="opt-label">Yes — full identity</span></label>
+          <label class="opt"><input type="radio" name="r_brand" value="Partial — name and rough direction"><span class="opt-label">Partial — name and direction</span></label>
+          <label class="opt"><input type="radio" name="r_brand" value="No — still developing"><span class="opt-label">No — still developing</span></label>
+        </div>
+        <span class="sub-label">Any references — restaurants or spaces you admire?</span>
+        <textarea name="r_references" class="q-textarea" placeholder="Names, Instagram handles, places you've visited. What worked about them?"></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('r6','r7')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="r7">
+      <div class="q-inner">
+        <span class="q-number">Budget & timeline</span>
+        <div class="q-text">What's the rough fit-out budget and opening target?</div>
+        <span class="sub-label" style="margin-top:0;">Fit-out budget</span>
+        <div class="options">
+          <label class="opt"><input type="radio" name="r_budget" value="Under RM 150k"><span class="opt-label">Under RM 150k</span></label>
+          <label class="opt"><input type="radio" name="r_budget" value="RM 150–300k"><span class="opt-label">RM 150–300k</span></label>
+          <label class="opt"><input type="radio" name="r_budget" value="RM 300–500k"><span class="opt-label">RM 300–500k</span></label>
+          <label class="opt"><input type="radio" name="r_budget" value="RM 500k+"><span class="opt-label">RM 500k+</span></label>
+          <label class="opt"><input type="radio" name="r_budget" value="Not sure yet"><span class="opt-label">Not sure yet</span></label>
+        </div>
+        <span class="sub-label">Target opening</span>
+        <input type="text" name="r_opening" class="q-input" placeholder="e.g. Q4 2025, or within 6 months of signing">
+        <button type="button" class="btn-next" onclick="nextQ('r7','r8')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="r8">
+      <div class="q-inner">
+        <span class="q-number">Last one</span>
+        <div class="q-text">Anything else we should know before we meet?</div>
+        <p class="q-hint">Constraints, past experiences, non-negotiables, or whatever hasn't been asked.</p>
+        <textarea name="r_notes" class="q-textarea" placeholder="Take your time."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('r8','submit-screen')">Almost done &rarr;</button>
+      </div>
+    </div>
+
+  </div><!-- end .track-restaurant -->
+
+
+  <!-- ════════════════════════════
+       TRACK: GYM / WELLNESS
+  ════════════════════════════ -->
+
+  <div class="track-gym">
+
+    <div class="q-screen" id="g1">
+      <div class="q-inner">
+        <span class="q-number">The concept</span>
+        <div class="q-text">What kind of gym or wellness space is this?</div>
+        <div class="options">
+          <label class="opt"><input type="radio" name="g_type" value="Commercial gym"><span class="opt-label">Commercial gym</span></label>
+          <label class="opt"><input type="radio" name="g_type" value="Boutique fitness studio"><span class="opt-label">Boutique fitness studio</span></label>
+          <label class="opt"><input type="radio" name="g_type" value="Yoga / pilates"><span class="opt-label">Yoga / pilates</span></label>
+          <label class="opt"><input type="radio" name="g_type" value="Spa / recovery"><span class="opt-label">Spa / recovery</span></label>
+          <label class="opt"><input type="radio" name="g_type" value="PT / personal training"><span class="opt-label">PT / personal training</span></label>
+          <label class="opt"><input type="radio" name="g_type" value="Mixed wellness"><span class="opt-label">Mixed wellness</span></label>
+        </div>
+        <span class="sub-label">Describe your concept in your own words</span>
+        <textarea name="g_concept" class="q-textarea" placeholder="e.g. A private members gym with 30 racks, sauna, and cold plunge. High-end, quiet, no mirrors on every wall."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('g1','g2')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="g2">
+      <div class="q-inner">
+        <span class="q-number">The member</span>
+        <div class="q-text">Who is this space for?</div>
+        <p class="q-hint">Describe your target member or client.</p>
+        <textarea name="g_member" class="q-textarea" placeholder="e.g. High-income professionals, 30–50, results-focused, time-poor. Or beginners who find commercial gyms intimidating."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('g2','g3')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="g3">
+      <div class="q-inner">
+        <span class="q-number">Zones needed</span>
+        <div class="q-text">What does the space need to include?</div>
+        <p class="q-hint">Tick all that apply.</p>
+        <div class="options">
+          <label class="opt"><input type="checkbox" name="g_zones" value="Weights floor"><span class="opt-label">Weights floor</span></label>
+          <label class="opt"><input type="checkbox" name="g_zones" value="Cardio zone"><span class="opt-label">Cardio zone</span></label>
+          <label class="opt"><input type="checkbox" name="g_zones" value="Studio / class space"><span class="opt-label">Studio / class space</span></label>
+          <label class="opt"><input type="checkbox" name="g_zones" value="Sauna"><span class="opt-label">Sauna</span></label>
+          <label class="opt"><input type="checkbox" name="g_zones" value="Cold plunge"><span class="opt-label">Cold plunge</span></label>
+          <label class="opt"><input type="checkbox" name="g_zones" value="Changing rooms"><span class="opt-label">Changing rooms</span></label>
+          <label class="opt"><input type="checkbox" name="g_zones" value="Reception / lounge"><span class="opt-label">Reception / lounge</span></label>
+          <label class="opt"><input type="checkbox" name="g_zones" value="Supplement / retail bar"><span class="opt-label">Supplement / retail bar</span></label>
+          <label class="opt"><input type="checkbox" name="g_zones" value="Treatment rooms"><span class="opt-label">Treatment rooms</span></label>
+          <label class="opt"><input type="checkbox" name="g_zones" value="PT rooms"><span class="opt-label">PT rooms</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('g3','g4')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="g4">
+      <div class="q-inner">
+        <span class="q-number">Atmosphere</span>
+        <div class="q-text">How should the space feel to train or recover in?</div>
+        <p class="q-hint">Pick one from each pair.</p>
+        <div class="atmos-group">
+          <div>
+            <div class="atmos-pair-label">Energy</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="g_energy" value="Intense and motivating"><span class="opt-label">Intense and motivating</span></label>
+              <label class="opt"><input type="radio" name="g_energy" value="Calm and focused"><span class="opt-label">Calm and focused</span></label>
+              <label class="opt"><input type="radio" name="g_energy" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+          <div>
+            <div class="atmos-pair-label">Lighting</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="g_lighting" value="Bright and clinical"><span class="opt-label">Bright and clinical</span></label>
+              <label class="opt"><input type="radio" name="g_lighting" value="Warm and moody"><span class="opt-label">Warm and moody</span></label>
+              <label class="opt"><input type="radio" name="g_lighting" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+          <div>
+            <div class="atmos-pair-label">Feel</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="g_feel" value="Raw and industrial"><span class="opt-label">Raw and industrial</span></label>
+              <label class="opt"><input type="radio" name="g_feel" value="Premium and refined"><span class="opt-label">Premium and refined</span></label>
+              <label class="opt"><input type="radio" name="g_feel" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('g4','g5')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="g5">
+      <div class="q-inner">
+        <span class="q-number">Budget & timeline</span>
+        <div class="q-text">Rough fit-out budget and target opening?</div>
+        <span class="sub-label" style="margin-top:0;">Fit-out budget</span>
+        <div class="options">
+          <label class="opt"><input type="radio" name="g_budget" value="Under RM 200k"><span class="opt-label">Under RM 200k</span></label>
+          <label class="opt"><input type="radio" name="g_budget" value="RM 200–500k"><span class="opt-label">RM 200–500k</span></label>
+          <label class="opt"><input type="radio" name="g_budget" value="RM 500k–1M"><span class="opt-label">RM 500k–1M</span></label>
+          <label class="opt"><input type="radio" name="g_budget" value="RM 1M+"><span class="opt-label">RM 1M+</span></label>
+          <label class="opt"><input type="radio" name="g_budget" value="Not sure yet"><span class="opt-label">Not sure yet</span></label>
+        </div>
+        <span class="sub-label">Target opening</span>
+        <input type="text" name="g_opening" class="q-input" placeholder="e.g. Mid 2026, or within 8 months">
+        <span class="sub-label">References — gyms or wellness spaces you admire</span>
+        <textarea name="g_references" class="q-textarea" placeholder="Names, Instagram, places you've visited. What worked?"></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('g5','g6')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="g6">
+      <div class="q-inner">
+        <span class="q-number">Last one</span>
+        <div class="q-text">Anything else before we meet?</div>
+        <textarea name="g_notes" class="q-textarea" placeholder="Constraints, non-negotiables, past experiences, or whatever hasn't been asked."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('g6','submit-screen')">Almost done &rarr;</button>
+      </div>
+    </div>
+
+  </div><!-- end .track-gym -->
+
+
+  <!-- ════════════════════════════
+       TRACK: OFFICE / STUDIO
+  ════════════════════════════ -->
+
+  <div class="track-office">
+
+    <div class="q-screen" id="o1">
+      <div class="q-inner">
+        <span class="q-number">The business</span>
+        <div class="q-text">What does your company or studio do?</div>
+        <textarea name="o_business" class="q-textarea" placeholder="e.g. A 12-person creative agency. Or a solo architecture practice that occasionally hosts clients. Or a law firm requiring private meeting rooms."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('o1','o2')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="o2">
+      <div class="q-inner">
+        <span class="q-number">How you work</span>
+        <div class="q-text">How does your team use the space?</div>
+        <span class="sub-label" style="margin-top:0;">Team size</span>
+        <input type="text" name="o_team" class="q-input" placeholder="e.g. 8 full-time, 4 freelancers rotating">
+        <span class="sub-label">Work style</span>
+        <div class="options">
+          <label class="opt"><input type="radio" name="o_style" value="Everyone in daily"><span class="opt-label">Everyone in daily</span></label>
+          <label class="opt"><input type="radio" name="o_style" value="Hybrid — rotating days"><span class="opt-label">Hybrid — rotating</span></label>
+          <label class="opt"><input type="radio" name="o_style" value="Mostly remote — space for meetings only"><span class="opt-label">Mostly remote</span></label>
+        </div>
+        <span class="sub-label">Do clients visit?</span>
+        <div class="options">
+          <label class="opt"><input type="radio" name="o_clients" value="Regularly"><span class="opt-label">Regularly</span></label>
+          <label class="opt"><input type="radio" name="o_clients" value="Occasionally"><span class="opt-label">Occasionally</span></label>
+          <label class="opt"><input type="radio" name="o_clients" value="Rarely — mostly remote meetings"><span class="opt-label">Rarely</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('o2','o3')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="o3">
+      <div class="q-inner">
+        <span class="q-number">Zones needed</span>
+        <div class="q-text">What does the office need?</div>
+        <p class="q-hint">Tick all that apply.</p>
+        <div class="options">
+          <label class="opt"><input type="checkbox" name="o_zones" value="Open plan workstations"><span class="opt-label">Open plan workstations</span></label>
+          <label class="opt"><input type="checkbox" name="o_zones" value="Private offices"><span class="opt-label">Private offices</span></label>
+          <label class="opt"><input type="checkbox" name="o_zones" value="Meeting rooms"><span class="opt-label">Meeting rooms</span></label>
+          <label class="opt"><input type="checkbox" name="o_zones" value="Client reception"><span class="opt-label">Client reception</span></label>
+          <label class="opt"><input type="checkbox" name="o_zones" value="Breakout / lounge"><span class="opt-label">Breakout / lounge</span></label>
+          <label class="opt"><input type="checkbox" name="o_zones" value="Pantry / kitchen"><span class="opt-label">Pantry / kitchen</span></label>
+          <label class="opt"><input type="checkbox" name="o_zones" value="Focus / quiet pods"><span class="opt-label">Focus / quiet pods</span></label>
+          <label class="opt"><input type="checkbox" name="o_zones" value="Storage / archive"><span class="opt-label">Storage / archive</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('o3','o4')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="o4">
+      <div class="q-inner">
+        <span class="q-number">Atmosphere</span>
+        <div class="q-text">How should the office feel?</div>
+        <p class="q-hint">Pick one from each pair.</p>
+        <div class="atmos-group">
+          <div>
+            <div class="atmos-pair-label">Energy</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="o_energy" value="Focused and quiet"><span class="opt-label">Focused and quiet</span></label>
+              <label class="opt"><input type="radio" name="o_energy" value="Collaborative and open"><span class="opt-label">Collaborative and open</span></label>
+              <label class="opt"><input type="radio" name="o_energy" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+          <div>
+            <div class="atmos-pair-label">Impression on clients</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="o_impression" value="Corporate and authoritative"><span class="opt-label">Corporate and authoritative</span></label>
+              <label class="opt"><input type="radio" name="o_impression" value="Creative and approachable"><span class="opt-label">Creative and approachable</span></label>
+              <label class="opt"><input type="radio" name="o_impression" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('o4','o5')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="o5">
+      <div class="q-inner">
+        <span class="q-number">Budget & timeline</span>
+        <div class="q-text">Rough fit-out budget and move-in target?</div>
+        <span class="sub-label" style="margin-top:0;">Fit-out budget</span>
+        <div class="options">
+          <label class="opt"><input type="radio" name="o_budget" value="Under RM 100k"><span class="opt-label">Under RM 100k</span></label>
+          <label class="opt"><input type="radio" name="o_budget" value="RM 100–250k"><span class="opt-label">RM 100–250k</span></label>
+          <label class="opt"><input type="radio" name="o_budget" value="RM 250–500k"><span class="opt-label">RM 250–500k</span></label>
+          <label class="opt"><input type="radio" name="o_budget" value="RM 500k+"><span class="opt-label">RM 500k+</span></label>
+          <label class="opt"><input type="radio" name="o_budget" value="Not sure yet"><span class="opt-label">Not sure yet</span></label>
+        </div>
+        <span class="sub-label">Target move-in</span>
+        <input type="text" name="o_timeline" class="q-input" placeholder="e.g. Before end of year, or within 4 months">
+        <span class="sub-label">References — offices or studios you admire</span>
+        <textarea name="o_references" class="q-textarea" placeholder="Names, links, or just describe what worked about them."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('o5','o6')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="o6">
+      <div class="q-inner">
+        <span class="q-number">Last one</span>
+        <div class="q-text">Anything else before we meet?</div>
+        <textarea name="o_notes" class="q-textarea" placeholder="Constraints, non-negotiables, or whatever hasn't been asked."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('o6','submit-screen')">Almost done &rarr;</button>
+      </div>
+    </div>
+
+  </div><!-- end .track-office -->
+
+
+  <!-- ════════════════════════════
+       TRACK: RETAIL
+  ════════════════════════════ -->
+
+  <div class="track-retail">
+
+    <div class="q-screen" id="rt1">
+      <div class="q-inner">
+        <span class="q-number">The store</span>
+        <div class="q-text">What are you selling, and how?</div>
+        <p class="q-hint">Product category, price point, brand positioning.</p>
+        <textarea name="rt_concept" class="q-textarea" placeholder="e.g. A multi-brand streetwear store, mid-to-premium price point, targeting 18–30. Or a single-brand skincare boutique with consultation services."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('rt1','rt2')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="rt2">
+      <div class="q-inner">
+        <span class="q-number">The customer</span>
+        <div class="q-text">Who is walking through your door?</div>
+        <textarea name="rt_customer" class="q-textarea" placeholder="Age, lifestyle, how they shop, what they care about. What do they expect when they walk in?"></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('rt2','rt3')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="rt3">
+      <div class="q-inner">
+        <span class="q-number">Store layout</span>
+        <div class="q-text">What does the store need to do?</div>
+        <p class="q-hint">Tick all that apply.</p>
+        <div class="options">
+          <label class="opt"><input type="checkbox" name="rt_zones" value="Product display / shelving"><span class="opt-label">Product display</span></label>
+          <label class="opt"><input type="checkbox" name="rt_zones" value="Fitting rooms"><span class="opt-label">Fitting rooms</span></label>
+          <label class="opt"><input type="checkbox" name="rt_zones" value="Cashier / POS counter"><span class="opt-label">Cashier / POS</span></label>
+          <label class="opt"><input type="checkbox" name="rt_zones" value="Consultation area"><span class="opt-label">Consultation area</span></label>
+          <label class="opt"><input type="checkbox" name="rt_zones" value="Storage / stockroom"><span class="opt-label">Stockroom</span></label>
+          <label class="opt"><input type="checkbox" name="rt_zones" value="Window display"><span class="opt-label">Window display</span></label>
+          <label class="opt"><input type="checkbox" name="rt_zones" value="Experience / event space"><span class="opt-label">Event / experience zone</span></label>
+          <label class="opt"><input type="checkbox" name="rt_zones" value="Staff area"><span class="opt-label">Staff area</span></label>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('rt3','rt4')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="rt4">
+      <div class="q-inner">
+        <span class="q-number">Atmosphere</span>
+        <div class="q-text">How should the store feel?</div>
+        <p class="q-hint">Pick one from each pair.</p>
+        <div class="atmos-group">
+          <div>
+            <div class="atmos-pair-label">Browsing feel</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="rt_browse" value="Curated — fewer, placed with intention"><span class="opt-label">Curated and sparse</span></label>
+              <label class="opt"><input type="radio" name="rt_browse" value="Abundant — lots to discover"><span class="opt-label">Abundant, lots to explore</span></label>
+              <label class="opt"><input type="radio" name="rt_browse" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+          <div>
+            <div class="atmos-pair-label">Tone</div>
+            <div class="options no-mb">
+              <label class="opt"><input type="radio" name="rt_tone" value="Quiet and considered"><span class="opt-label">Quiet and considered</span></label>
+              <label class="opt"><input type="radio" name="rt_tone" value="Energetic and engaging"><span class="opt-label">Energetic and engaging</span></label>
+              <label class="opt"><input type="radio" name="rt_tone" value="Somewhere between"><span class="opt-label">Somewhere between</span></label>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn-next" onclick="nextQ('rt4','rt5')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="rt5">
+      <div class="q-inner">
+        <span class="q-number">Budget & timeline</span>
+        <div class="q-text">Fit-out budget and target opening?</div>
+        <span class="sub-label" style="margin-top:0;">Fit-out budget</span>
+        <div class="options">
+          <label class="opt"><input type="radio" name="rt_budget" value="Under RM 100k"><span class="opt-label">Under RM 100k</span></label>
+          <label class="opt"><input type="radio" name="rt_budget" value="RM 100–250k"><span class="opt-label">RM 100–250k</span></label>
+          <label class="opt"><input type="radio" name="rt_budget" value="RM 250–500k"><span class="opt-label">RM 250–500k</span></label>
+          <label class="opt"><input type="radio" name="rt_budget" value="RM 500k+"><span class="opt-label">RM 500k+</span></label>
+          <label class="opt"><input type="radio" name="rt_budget" value="Not sure yet"><span class="opt-label">Not sure yet</span></label>
+        </div>
+        <span class="sub-label">Target opening</span>
+        <input type="text" name="rt_opening" class="q-input" placeholder="e.g. End of year, or 5 months from now">
+        <span class="sub-label">References — stores you admire</span>
+        <textarea name="rt_references" class="q-textarea" placeholder="Names, locations, what worked about them."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('rt5','rt6')">Next &rarr;</button>
+      </div>
+    </div>
+
+    <div class="q-screen" id="rt6">
+      <div class="q-inner">
+        <span class="q-number">Last one</span>
+        <div class="q-text">Anything else before we meet?</div>
+        <textarea name="rt_notes" class="q-textarea" placeholder="Constraints, non-negotiables, or whatever hasn't been asked."></textarea>
+        <button type="button" class="btn-next" onclick="nextQ('rt6','submit-screen')">Almost done &rarr;</button>
+      </div>
+    </div>
+
+  </div><!-- end .track-retail -->
+
+
+  <!-- ════════════════════════════
+       SUBMIT
+  ════════════════════════════ -->
+
+  <div class="q-screen" id="submit-screen">
+    <div class="submit-inner">
+      <div class="submit-title">That's everything.<br><em>Thank you.</em></div>
+      <p class="submit-sub">Jayden will review this before your first meeting. If anything changes or you want to add something, reach out directly.</p>
+      <button type="submit" class="btn-submit" id="submit-btn">Send brief &rarr;</button>
+    </div>
+  </div>
+
+</form>
+
+<!-- SUCCESS -->
+<div id="success-screen">
+  <div class="success-line"></div>
+  <div class="success-title">Brief received.</div>
+  <p class="success-sub">Jayden will be in touch shortly.<br>See you at the first meeting.</p>
+</div>
+
+</div><!-- end #form-body -->
+
+<script>
+let currentTrack = 'home';
+
+const TRACKS = {
+  home:       ['qa','qb','qc','h1','h2','h3','h4','h5','h6','h7','h8','h9','h10','h11','h12','h13','h14','h15','submit-screen'],
+  restaurant: ['qa','qb','qc','r1','r2','r3','r4','r5','r6','r7','r8','submit-screen'],
+  gym:        ['qa','qb','qc','g1','g2','g3','g4','g5','g6','submit-screen'],
+  office:     ['qa','qb','qc','o1','o2','o3','o4','o5','o6','submit-screen'],
+  retail:     ['qa','qb','qc','rt1','rt2','rt3','rt4','rt5','rt6','submit-screen']
+};
+
+// Hide all track sections on load
+function hideAllTracks() {
+  document.querySelectorAll('.track-home, .track-restaurant, .track-gym, .track-office, .track-retail').forEach(function(el) {
+    el.style.display = 'none';
+  });
+}
+
+// Initialise default property fields
+document.addEventListener('DOMContentLoaded', function() {
+  renderPropertyFields('home');
+});
+
+// Show only the current track
+function showTrack(track) {
+  hideAllTracks();
+  var el = document.querySelector('.track-' + track);
+  if (el) el.style.display = 'block';
+}
+
+function setTrack(track) {
+  currentTrack = track;
+  document.getElementById('field-track').value = track;
+  showTrack(track);
+  renderPropertyFields(track);
+}
+
+var PROPERTY_TYPES = {
+  home:       ['Terrace', 'Semi-D', 'Bungalow', 'Condominium', 'Apartment', 'Serviced apartment', 'Not sure'],
+  restaurant: ['Shoplot', 'Ground floor retail', 'Standalone building', 'Mall / podium unit', 'Heritage shophouse', 'Not sure'],
+  gym:        ['Shoplot', 'Standalone building', 'Mall / podium unit', 'Industrial / warehouse', 'Not sure'],
+  office:     ['Office tower unit', 'Standalone building', 'Shoplot', 'Converted house', 'Co-working space', 'Not sure'],
+  retail:     ['Shoplot', 'Mall / podium unit', 'Standalone building', 'Heritage shophouse', 'Pop-up / kiosk', 'Not sure']
+};
+
+var CONDITIONS = {
+  home:       ['New — bare unit', 'Subsale — original condition', 'Previously renovated', 'Currently occupied'],
+  restaurant: ['Empty shell — never fitted out', 'Previously a restaurant', 'Previously another business', 'Currently operating'],
+  gym:        ['Empty shell', 'Previously a gym', 'Previously another business', 'Currently operating'],
+  office:     ['Empty shell', 'Previously fitted out', 'Currently occupied', 'Needs full strip-out'],
+  retail:     ['Empty shell', 'Previously a retail store', 'Previously another business', 'Currently operating']
+};
+
+function renderPropertyFields(track) {
+  var types = PROPERTY_TYPES[track] || PROPERTY_TYPES.home;
+  var conditions = CONDITIONS[track] || CONDITIONS.home;
+
+  var typesHtml = types.map(function(t) {
+    return '<label class="opt"><input type="radio" name="property_type" value="' + t + '"><span class="opt-label">' + t + '</span></label>';
+  }).join('');
+
+  var conditionsHtml = conditions.map(function(c) {
+    return '<label class="opt"><input type="radio" name="condition" value="' + c + '"><span class="opt-label">' + c + '</span></label>';
+  }).join('');
+
+  document.getElementById('qc-property-types').innerHTML = typesHtml;
+  document.getElementById('qc-conditions').innerHTML = conditionsHtml;
+}
+
+function startForm() {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('form-body').style.display = 'block';
+  document.getElementById('wordmark').style.opacity = '1';
+  hideAllTracks();
+  showTrack('home'); // default until they pick
+  revealQ('qa');
+  updateProgress('qa');
+}
+
+function revealQ(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  setTimeout(function() {
+    el.classList.add('visible');
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 80);
+}
+
+function nextQ(currentId, nextId) {
+  updateProgress(nextId);
+  revealQ(nextId);
+}
+
+function updateProgress(id) {
+  var seq = TRACKS[currentTrack];
+  var idx = seq.indexOf(id);
+  var pct = idx < 0 ? 100 : Math.round((idx / (seq.length - 1)) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function handleIntakeNext() {
+  var name = document.querySelector('[name="full_name"]').value || 'Client';
+  var preferred = document.querySelector('[name="preferred_name"]').value || '';
+  var location = document.querySelector('[name="location"]').value || '';
+
+  document.getElementById('field-subject').value = 'New Brief — ' + (preferred || name);
+  document.getElementById('field-summary').value = (preferred || name) + (location ? ' · ' + location : '') + ' · ' + currentTrack;
+
+  // Jump to first question of the selected track
+  var firstQ = TRACKS[currentTrack][3];
+  nextQ('qc', firstQ);
+}
+
+// Initialise on load
+document.addEventListener('DOMContentLoaded', function() {
+  renderPropertyFields('home');
+
+  document.getElementById('brief-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      var res = await fetch(this.action, {
+        method: 'POST',
+        body: new FormData(this),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        document.getElementById('submit-screen').style.display = 'none';
+        document.getElementById('success-screen').classList.add('visible');
+        document.getElementById('progress-bar').style.width = '100%';
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Send brief →';
+        alert('Something went wrong. Please try again.');
+      }
+    } catch(err) {
+      btn.disabled = false;
+      btn.textContent = 'Send brief →';
+      alert('Something went wrong. Please try again.');
+    }
+  });
+});
+</script>
+</body>
+</html>

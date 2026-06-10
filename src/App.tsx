@@ -567,141 +567,31 @@ export default function SoapStudiosWebsite() {
           <div className="md:col-span-5 md:pt-6">
             <Reveal delay={0.06}>
               <p className={`max-w-md text-sm leading-7 md:text-base ${subText}`}>
-                Projects typically begin with a consultation, where we understand your home, your routines, and what you want your space to feel like.
+                Every project begins with a brief. Fill yours in before we meet — it takes under ten minutes and shapes everything that follows.
               </p>
             </Reveal>
             <div className="mt-10">
-              <form
-                className="grid gap-4 max-w-md"
-                action="https://formspree.io/f/mdayoqko"
-                method="POST"
-              >
-                <input type="hidden" name="_subject" value="New Project Enquiry" />
-                <input type="hidden" name="_captcha" value="false" />
-
-                <p className={`text-[10px] uppercase tracking-[0.34em] ${isDark ? "text-[#6f6a63]" : "text-[#6b645c]"}`}>
-                  We take on a limited number of projects each year.
-                </p>
-
-                <input
-                  name="name"
-                  placeholder="Name"
-                  required
-                  className={`px-4 py-3 rounded-[1rem] border text-sm outline-none transition ${
-                    isDark
-                      ? "border-white/10 bg-[#12110f]/55 text-[#e7dfd1] placeholder:text-[#8c8378] focus:border-[#e7dfd1]/25 focus:bg-[#171512]"
-                      : "border-black/10 bg-[#f6f0e8] text-[#181512] placeholder:text-[#6b645c] focus:border-black/20 focus:bg-white"
-                  }`}
-                />
-
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="Email"
-                  required
-                  className={`px-4 py-3 rounded-[1rem] border text-sm outline-none transition ${
-                    isDark
-                      ? "border-white/10 bg-[#12110f]/55 text-[#e7dfd1] placeholder:text-[#8c8378] focus:border-[#e7dfd1]/25 focus:bg-[#171512]"
-                      : "border-black/10 bg-[#f6f0e8] text-[#181512] placeholder:text-[#6b645c] focus:border-black/20 focus:bg-white"
-                  }`}
-                />
-
-                <select
-                  name="projectType"
-                  required
-                  defaultValue=""
-                  className={`px-4 py-3 rounded-[1rem] border text-sm outline-none transition ${
-                    isDark
-                      ? "border-white/10 bg-[#12110f]/55 text-[#e7dfd1] focus:border-[#e7dfd1]/25 focus:bg-[#171512]"
-                      : "border-black/10 bg-[#f6f0e8] text-[#181512] focus:border-black/20 focus:bg-white"
-                  }`}
-                >
-                  <option value="" disabled>Project type</option>
-                  <option>Home / Condo</option>
-                  <option>Rental</option>
-                  <option>Commercial / Gym</option>
-                  <option>Not sure yet</option>
-                </select>
-
-                <select
-                  name="budget"
-                  required
-                  defaultValue=""
-                  className={`px-4 py-3 rounded-[1rem] border text-sm outline-none transition ${
-                    isDark
-                      ? "border-white/10 bg-[#12110f]/55 text-[#e7dfd1] focus:border-[#e7dfd1]/25 focus:bg-[#171512]"
-                      : "border-black/10 bg-[#f6f0e8] text-[#181512] focus:border-black/20 focus:bg-white"
-                  }`}
-                >
-                  <option value="" disabled>Budget range</option>
-                  <option>RM25k – RM50k</option>
-                  <option>RM50k – RM100k</option>
-                  <option>RM100k+</option>
-                  <option>Not sure yet</option>
-                </select>
-
-                <select
-                  name="begin"
-                  required
-                  defaultValue=""
-                  className={`px-4 py-3 rounded-[1rem] border text-sm outline-none transition ${
-                    isDark
-                      ? "border-white/10 bg-[#12110f]/55 text-[#e7dfd1] focus:border-[#e7dfd1]/25 focus:bg-[#171512]"
-                      : "border-black/10 bg-[#f6f0e8] text-[#181512] focus:border-black/20 focus:bg-white"
-                  }`}
-                >
-                  <option value="" disabled>When are you looking to begin?</option>
-                  <option>Ready now</option>
-                  <option>Within 1–3 months</option>
-                  <option>Within 3–6 months</option>
-                  <option>Just exploring</option>
-                </select>
-
-                <div className="grid gap-2">
-                  <p className={`text-[10px] uppercase tracking-[0.3em] ${isDark ? "text-[#8c8378]" : "text-[#6b645c]"}`}>
-                    What matters most?
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {["How it feels", "How it functions", "How I host / live", "Not sure yet"].map((option) => (
-                      <label
-                        key={option}
-                        className={`rounded-full px-4 py-2 text-[10px] uppercase tracking-[0.24em] border cursor-pointer transition ${
-                          isDark
-                            ? "border-white/10 bg-[#12110f]/55 text-[#d6d1cb]"
-                            : "border-black/10 bg-[#f6f0e8] text-[#181512]"
-                        }`}
-                      >
-                        <input type="radio" name="priority" value={option} className="sr-only" required />
-                        {option}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <textarea
-                  name="details"
-                  placeholder="Tell me about your space, or how you want it to feel"
-                  rows={4}
-                  className={`px-4 py-3 rounded-[1rem] border text-sm outline-none transition resize-none ${
-                    isDark
-                      ? "border-white/10 bg-[#12110f]/55 text-[#e7dfd1] placeholder:text-[#8c8378] focus:border-[#e7dfd1]/25 focus:bg-[#171512]"
-                      : "border-black/10 bg-[#f6f0e8] text-[#181512] placeholder:text-[#6b645c] focus:border-black/20 focus:bg-white"
-                  }`}
-                />
-
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    className={`rounded-full px-6 py-3 text-[11px] uppercase tracking-[0.32em] transition ${
-                      isDark
-                        ? "bg-gradient-to-b from-[#f2ede6] to-[#d6cec2] text-black shadow-[0_0_0_rgba(242,237,230,0)] hover:shadow-[0_0_24px_rgba(242,237,230,0.12)]"
-                        : "bg-gradient-to-b from-[#2a2622] to-[#171411] text-[#f3ede3] shadow-[0_10px_26px_rgba(0,0,0,0.18)]"
-                    }`}
-                  >
-                    Start a project
-                  </button>
-                </div>
-              </form>
+              <div className="mt-10 grid gap-6 max-w-md">
+  <p className={`text-[10px] uppercase tracking-[0.34em] ${isDark ? "text-[#6f6a63]" : "text-[#6b645c]"}`}>
+    We take on a limited number of projects each year.
+  </p>
+  
+    href="/brief.html"
+    target="_blank"
+    rel="noopener noreferrer"
+    className={`inline-block w-fit rounded-full px-6 py-3 text-[11px] uppercase tracking-[0.32em] transition ${
+      isDark
+        ? "bg-gradient-to-b from-[#f2ede6] to-[#d6cec2] text-black hover:shadow-[0_0_24px_rgba(242,237,230,0.12)]"
+        : "bg-gradient-to-b from-[#2a2622] to-[#171411] text-[#f3ede3] shadow-[0_10px_26px_rgba(0,0,0,0.18)]"
+    }`}
+  >
+    Start your brief →
+  </a>
+  <p className={`text-[10px] leading-6 uppercase tracking-[0.22em] ${isDark ? "text-[#6f6a63]" : "text-[#6b645c]"}`}>
+    Or reach us directly at<br />
+    jaydenchoo.soap@gmail.com
+  </p>
+</div>
             </div>
             <div className="mt-8">
               <p className={`text-[10px] uppercase tracking-[0.44em] ${isDark ? "text-[#6f6a63]" : "text-[#6b645c]"}`}>SOAP STUDIOS</p>
