@@ -237,110 +237,71 @@ function HeroRail({ theme }: { theme: ThemeMode }) {
   );
 }
 
-function ProjectGrid({ theme }: { theme: ThemeMode }) {
-  const gridRef = useRef<HTMLElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: gridRef,
-    offset: ["start end", "end start"],
-  });
-
-  const slowY = useTransform(scrollYProgress, [0, 1], [18, -18]);
-  const fastY = useTransform(scrollYProgress, [0, 1], [32, -32]);
-
-  const card = theme === "dark"
-    ? "border-white/10 bg-white/[0.02]"
-    : "border-black/10 bg-[#f3eee6] shadow-[0_20px_60px_rgba(0,0,0,0.12)]";
-
-  const img = "block w-full h-auto object-cover transition duration-700 ease-out hover:brightness-[0.94]";
-
+function Lightbox({ src, onClose }: { src: string; onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
   return (
-    <section ref={gridRef} className="px-5 pt-12 pb-32 md:px-8 md:pt-16 md:pb-40">
-      <div className="mx-auto max-w-[92rem] flex flex-col gap-5">
-
-        {/* Row 1 — Full width hero */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 1.2, ease: easeExpo }}
-          style={{ y: slowY }}
-          className={`overflow-hidden rounded-[1.5rem] border w-full ${card}`}
-        >
-          <img src={project2Hero} alt="Alix Residence dining" className={img} />
-        </motion.div>
-
-        {/* Row 2 — 2/3 + 1/3 */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 1.2, delay: 0.05, ease: easeExpo }}
-            style={{ y: slowY }}
-            className={`overflow-hidden rounded-[1.5rem] border md:col-span-8 ${card}`}
-          >
-            <img src={project2Narrative} alt="Alix Residence living" className={img} />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 1.2, delay: 0.12, ease: easeExpo }}
-            style={{ y: fastY }}
-            className={`overflow-hidden rounded-[1.5rem] border md:col-span-4 ${card}`}
-          >
-            <img src={project2Detail1} alt="Alix Residence bedroom" className={img} />
-          </motion.div>
-        </div>
-
-        {/* Row 3 — Full width */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 1.2, ease: easeExpo }}
-          style={{ y: slowY }}
-          className={`overflow-hidden rounded-[1.5rem] border w-full ${card}`}
-        >
-          <img src={project2Detail2} alt="Alix Residence overview" className={img} />
-        </motion.div>
-
-        {/* Row 4 — Equal two column */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 1.2, delay: 0.05, ease: easeExpo }}
-            style={{ y: slowY }}
-            className={`overflow-hidden rounded-[1.5rem] border ${card}`}
-          >
-            <img src={project2Detail3} alt="Alix Residence marble detail" className={img} />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 1.2, delay: 0.12, ease: easeExpo }}
-            style={{ y: fastY }}
-            className={`overflow-hidden rounded-[1.5rem] border ${card}`}
-          >
-            <img src={project2Detail4} alt="Alix Residence entry mirror" className={img} />
-          </motion.div>
-        </div>
-
-        {/* Row 5 — Offset single portrait */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 1.2, delay: 0.08, ease: easeExpo }}
-            style={{ y: slowY }}
-            className={`overflow-hidden rounded-[1.5rem] border md:col-span-5 md:col-start-4 ${card}`}
-          >
-            <img src={project2Detail5} alt="Alix Residence corridor" className={img} />
-          </motion.div>
-        </div>
-
-      </div>
-    </section>
+    <motion.div
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[999] flex items-center justify-center bg-black/90 cursor-zoom-out"
+      onClick={onClose}
+    >
+      <img src={src} alt="" className="max-h-[90vh] max-w-[90vw] rounded-xl object-contain" onClick={e => e.stopPropagation()} />
+    </motion.div>
   );
 }
 
+function ProjectGrid({ theme }: { theme: ThemeMode }) {
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+
+  const card = theme === "dark"
+    ? "border-white/10 bg-white/[0.02]"
+    : "border-black/10 bg-[#f3eee6] shadow-[0_10px_32px_rgba(0,0,0,0.10)]";
+
+  const images = [
+    { src: project2Hero, alt: "Alix Residence dining" },
+    { src: project2Narrative, alt: "Alix Residence living" },
+    { src: project2Detail2, alt: "Alix Residence overview" },
+    { src: project2Detail3, alt: "Alix Residence marble" },
+    { src: project2Detail4, alt: "Alix Residence entry" },
+    { src: project2Detail1, alt: "Alix Residence bedroom" },
+    { src: project2Detail5, alt: "Alix Residence corridor" },
+  ];
+
+  return (
+    <>
+      {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
+      <section className="pb-32 md:pb-40">
+        <div
+          className="flex gap-3 overflow-x-auto scrollbar-hide px-5 md:px-8"
+          style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
+        >
+          {images.map(({ src, alt }, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.9, delay: i * 0.05, ease: easeExpo }}
+              className={`group relative flex-none overflow-hidden rounded-2xl border cursor-zoom-in ${card}`}
+              style={{ scrollSnapAlign: "start", height: "280px", width: "auto", aspectRatio: "4/3" }}
+              onClick={() => setLightboxSrc(src)}
+            >
+              <img src={src} alt={alt} className="h-full w-full object-cover transition duration-500 ease-out group-hover:brightness-[0.85] group-hover:scale-[1.03]" />
+            </motion.div>
+          ))}
+          <div className="flex-none w-8" />
+        </div>
+        <p className={`mt-5 px-5 md:px-8 text-[10px] uppercase tracking-[0.22em] ${theme === "dark" ? "text-[#8c8378]" : "text-[#6b645c]"}`}>
+          Scroll to explore · Click to enlarge
+        </p>
+      </section>
+    </>
+  );
+}
 export default function SoapStudiosWebsite() {
   const heroRef = useRef<HTMLElement | null>(null);
   const { scrollYProgress } = useScroll();
