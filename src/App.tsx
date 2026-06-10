@@ -1,5 +1,8 @@
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import AlixResidence from "./AlixResidence";
+import SunwayArtessa from "./SunwayArtessa";
 
 type ThemeMode = "dark" | "light";
 const easeExpo: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -302,7 +305,7 @@ function ProjectGrid({ theme }: { theme: ThemeMode }) {
     </>
   );
 }
-export default function SoapStudiosWebsite() {
+function HomePage() {
   const heroRef = useRef<HTMLElement | null>(null);
   const { scrollYProgress } = useScroll();
   const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
@@ -459,6 +462,14 @@ export default function SoapStudiosWebsite() {
               From atmosphere to function, every decision is made with care — so the space feels resolved, personal, and easy to live in.
             </p>
           </Reveal>
+          <Reveal delay={0.18}>
+            <Link
+              to="/projects/sunway-artessa"
+              className={`mt-8 inline-block text-[10px] uppercase tracking-[0.38em] border-b pb-0.5 transition ${isDark ? "border-[#8c8378] text-[#8c8378] hover:text-[#d6d1cb] hover:border-[#d6d1cb]" : "border-[#6b645c] text-[#6b645c] hover:text-[#181512] hover:border-[#181512]"}`}
+            >
+              View project →
+            </Link>
+          </Reveal>
         </div>
       </section>
 
@@ -517,6 +528,14 @@ export default function SoapStudiosWebsite() {
             <p className={`mt-6 max-w-2xl text-sm leading-7 md:text-base ${subText}`}>
               Designed to be felt, not just seen.
             </p>
+          </Reveal>
+          <Reveal delay={0.18}>
+            <Link
+              to="/projects/alix-residence"
+              className={`mt-8 inline-block text-[10px] uppercase tracking-[0.38em] border-b pb-0.5 transition ${isDark ? "border-[#8c8378] text-[#8c8378] hover:text-[#d6d1cb] hover:border-[#d6d1cb]" : "border-[#6b645c] text-[#6b645c] hover:text-[#181512] hover:border-[#181512]"}`}
+            >
+              View project →
+            </Link>
           </Reveal>
         </div>
       </section>
@@ -595,5 +614,15 @@ export default function SoapStudiosWebsite() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/projects/alix-residence" element={<AlixResidence />} />
+      <Route path="/projects/sunway-artessa" element={<SunwayArtessa />} />
+    </Routes>
   );
 }
