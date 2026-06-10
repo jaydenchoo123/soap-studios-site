@@ -14,6 +14,8 @@ const project2Narrative = "/media/project2-narrative.jpg";
 const project2Detail1 = "/media/project2-detail1.jpg";
 const project2Detail2 = "/media/project2-detail2.jpg";
 const project2Detail3 = "/media/project2-detail3.jpg";
+const project2Detail4 = "/media/project2-detail4.jpg";
+const project2Detail5 = "/media/project2-detail5.jpg";
 
 const jaydenPortrait = "/media/jayden-portrait.jpg";
 
@@ -242,73 +244,98 @@ function ProjectGrid({ theme }: { theme: ThemeMode }) {
     offset: ["start end", "end start"],
   });
 
-  const heroY = useTransform(scrollYProgress, [0, 1], [22, -22]);
-  const cardY = useTransform(scrollYProgress, [0, 1], [12, -12]);
+  const slowY = useTransform(scrollYProgress, [0, 1], [18, -18]);
+  const fastY = useTransform(scrollYProgress, [0, 1], [32, -32]);
 
-  const card =
-    theme === "dark"
-      ? "border-white/10 bg-white/[0.02]"
-      : "border-black/10 bg-[#f3eee6] shadow-[0_20px_60px_rgba(0,0,0,0.12)]";
+  const card = theme === "dark"
+    ? "border-white/10 bg-white/[0.02]"
+    : "border-black/10 bg-[#f3eee6] shadow-[0_20px_60px_rgba(0,0,0,0.12)]";
+
+  const img = "block w-full h-auto object-cover transition duration-700 ease-out hover:brightness-[0.94]";
 
   return (
     <section ref={gridRef} className="px-5 pt-12 pb-32 md:px-8 md:pt-16 md:pb-40">
-      <div className="mx-auto max-w-[92rem]">
-        <div className="grid gap-5 md:grid-cols-12 items-start">
-          <motion.div
-            style={{ y: heroY }}
-            className={`col-span-12 md:col-span-8 self-start overflow-hidden rounded-[1.5rem] border ${card}`}
-          >
-            <img
-              src={project2Hero}
-              alt="Project 2 hero"
-              className="block w-full h-auto"
-            />
-          </motion.div>
+      <div className="mx-auto max-w-[92rem] flex flex-col gap-5">
 
-          <motion.div
-            style={{ y: cardY }}
-            className={`col-span-12 md:col-span-4 self-start overflow-hidden rounded-[1.5rem] border ${card}`}
-          >
-            <img
-              src={project2Narrative}
-              alt="Project 2 narrative"
-              className="block w-full h-auto"
-            />
-          </motion.div>
+        {/* Row 1 — Full width hero */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 1.2, ease: easeExpo }}
+          style={{ y: slowY }}
+          className={`overflow-hidden rounded-[1.5rem] border w-full ${card}`}
+        >
+          <img src={project2Hero} alt="Alix Residence dining" className={img} />
+        </motion.div>
 
+        {/* Row 2 — 2/3 + 1/3 */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
           <motion.div
-            style={{ y: heroY }}
-            className={`col-span-12 md:col-span-4 self-start overflow-hidden rounded-[1.5rem] border ${card}`}
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.2, delay: 0.05, ease: easeExpo }}
+            style={{ y: slowY }}
+            className={`overflow-hidden rounded-[1.5rem] border md:col-span-8 ${card}`}
           >
-            <img
-              src={project2Detail1}
-              alt="Project 2 detail 1"
-              className="block w-full h-auto"
-            />
+            <img src={project2Narrative} alt="Alix Residence living" className={img} />
           </motion.div>
-
           <motion.div
-            style={{ y: cardY }}
-            className={`col-span-12 md:col-span-4 self-start overflow-hidden rounded-[1.5rem] border ${card}`}
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.2, delay: 0.12, ease: easeExpo }}
+            style={{ y: fastY }}
+            className={`overflow-hidden rounded-[1.5rem] border md:col-span-4 ${card}`}
           >
-            <img
-              src={project2Detail2}
-              alt="Project 2 detail 2"
-              className="block w-full h-auto"
-            />
-          </motion.div>
-
-          <motion.div
-            style={{ y: heroY }}
-            className={`col-span-12 md:col-span-4 self-start overflow-hidden rounded-[1.5rem] border ${card}`}
-          >
-            <img
-              src={project2Detail3}
-              alt="Project 2 detail 3"
-              className="block w-full h-auto"
-            />
+            <img src={project2Detail1} alt="Alix Residence bedroom" className={img} />
           </motion.div>
         </div>
+
+        {/* Row 3 — Full width */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 1.2, ease: easeExpo }}
+          style={{ y: slowY }}
+          className={`overflow-hidden rounded-[1.5rem] border w-full ${card}`}
+        >
+          <img src={project2Detail2} alt="Alix Residence overview" className={img} />
+        </motion.div>
+
+        {/* Row 4 — Equal two column */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.2, delay: 0.05, ease: easeExpo }}
+            style={{ y: slowY }}
+            className={`overflow-hidden rounded-[1.5rem] border ${card}`}
+          >
+            <img src={project2Detail3} alt="Alix Residence marble detail" className={img} />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.2, delay: 0.12, ease: easeExpo }}
+            style={{ y: fastY }}
+            className={`overflow-hidden rounded-[1.5rem] border ${card}`}
+          >
+            <img src={project2Detail4} alt="Alix Residence entry mirror" className={img} />
+          </motion.div>
+        </div>
+
+        {/* Row 5 — Offset single portrait */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.2, delay: 0.08, ease: easeExpo }}
+            style={{ y: slowY }}
+            className={`overflow-hidden rounded-[1.5rem] border md:col-span-5 md:col-start-4 ${card}`}
+          >
+            <img src={project2Detail5} alt="Alix Residence corridor" className={img} />
+          </motion.div>
+        </div>
+
       </div>
     </section>
   );
