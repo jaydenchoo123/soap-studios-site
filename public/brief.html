@@ -12,20 +12,22 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --ink: #1C1A17;
-  --cream: #F0EBE1;
-  --gold: #C9A84C;
-  --dim: #9A9088;
-  --border: rgba(201,168,76,0.2);
-  --pill-border: rgba(240,235,225,0.18);
-  --pill-hover: rgba(240,235,225,0.06);
+  --ink: #11100e;
+  --cream: #d6d1cb;
+  --gold: #9e7651;
+  --dim: #8c8378;
+  --border: rgba(231,223,209,0.12);
+  --pill-border: rgba(214,209,203,0.15);
+  --pill-hover: rgba(214,209,203,0.05);
 }
 
-:root, html { background-color: #1C1A17; }
+:root, html { background-color: #11100e; }
 html { background: var(--ink); scroll-behavior: smooth; }
 
 body {
-  background: var(--ink);
+  background: radial-gradient(circle at 20% 20%, rgba(120,85,60,0.18), transparent 40%),
+              radial-gradient(circle at 80% 30%, rgba(90,70,50,0.12), transparent 45%),
+              linear-gradient(to bottom, #0a0a0a, #11100e, #0c0b0a);
   color: var(--cream);
   font-family: 'Inter', sans-serif;
   font-weight: 300;
@@ -50,8 +52,8 @@ textarea:-webkit-autofill {
 #progress-bar {
   position: fixed;
   top: 0; left: 0;
-  height: 2px;
-  background: var(--gold);
+  height: 1px;
+  background: rgba(214,209,203,0.4);
   width: 0%;
   transition: width 0.4s ease;
   z-index: 100;
@@ -64,7 +66,7 @@ textarea:-webkit-autofill {
   font-weight: 400;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: #b9b1a6;
   z-index: 100;
   opacity: 0;
   transition: opacity 0.6s ease;
@@ -116,14 +118,17 @@ textarea:-webkit-autofill {
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--gold);
-  background: transparent;
+  color: #000;
+  background: linear-gradient(to bottom, #f2ede6, #d6cec2);
+  border: none;
   padding: 16px 36px;
   cursor: pointer;
   transition: all 0.2s ease;
+  border-radius: 9999px;
 }
-.btn-start:hover { background: var(--gold); color: var(--ink); }
+.btn-start:hover {
+  box-shadow: 0 0 24px rgba(242,237,230,0.12);
+}
 
 /* ── FORM BODY ── */
 #form-body { display: none; }
@@ -279,15 +284,16 @@ textarea:-webkit-autofill {
   font-weight: 400;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--gold);
-  background: transparent;
+  color: #000;
+  background: linear-gradient(to bottom, #f2ede6, #d6cec2);
+  border: none;
   padding: 13px 32px;
   cursor: pointer;
   transition: all 0.18s ease;
+  border-radius: 9999px;
   margin-top: 8px;
 }
-.btn-next:hover { background: var(--gold); color: var(--ink); }
+.btn-next:hover { box-shadow: 0 0 24px rgba(242,237,230,0.12); }
 
 /* ── ATMOSPHERE PAIRS ── */
 .atmos-group { display: flex; flex-direction: column; gap: 24px; margin-bottom: 36px; }
@@ -337,14 +343,15 @@ textarea:-webkit-autofill {
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--gold);
-  background: transparent;
+  color: #000;
+  background: linear-gradient(to bottom, #f2ede6, #d6cec2);
+  border: none;
   padding: 16px 44px;
   cursor: pointer;
   transition: all 0.2s ease;
+  border-radius: 9999px;
 }
-.btn-submit:hover { background: var(--gold); color: var(--ink); }
+.btn-submit:hover { box-shadow: 0 0 24px rgba(242,237,230,0.12); }
 .btn-submit:disabled { opacity: 0.4; cursor: default; }
 
 /* ── SUCCESS ── */
@@ -359,7 +366,7 @@ textarea:-webkit-autofill {
   gap: 20px;
 }
 #success-screen.visible { display: flex; }
-.success-line { width: 1px; height: 48px; background: var(--gold); margin-bottom: 8px; }
+.success-line { width: 1px; height: 48px; background: rgba(214,209,203,0.4); margin-bottom: 8px; }
 .success-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--cream); }
 .success-sub { font-size: 13px; color: var(--dim); line-height: 1.7; }
 
@@ -1199,7 +1206,7 @@ textarea:-webkit-autofill {
   <div class="q-screen" id="submit-screen">
     <div class="submit-inner">
       <div class="submit-title">That's everything.<br><em>Thank you.</em></div>
-      <p class="submit-sub">Jayden will review this before your first meeting. If anything changes or you want to add something, reach out directly.</p>
+      <p class="submit-sub">Take a moment before you send. Once submitted, Jayden will review your brief and reach out if it feels like a good fit.</p>
       <button type="submit" class="btn-submit" id="submit-btn">Send brief &rarr;</button>
     </div>
   </div>
@@ -1210,7 +1217,8 @@ textarea:-webkit-autofill {
 <div id="success-screen">
   <div class="success-line"></div>
   <div class="success-title">Brief received.</div>
-  <p class="success-sub">Jayden will be in touch shortly.<br>See you at the first meeting.</p>
+  <p class="success-sub">Jayden will review it and be in touch if we're a good fit.<br>We take on a limited number of projects each year — and we're intentional about which ones.</p>
+  <p class="success-sub" style="margin-top:24px;opacity:0.4;">You may close this tab.</p>
 </div>
 
 </div><!-- end #form-body -->
