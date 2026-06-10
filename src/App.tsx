@@ -576,6 +576,7 @@ export default function SoapStudiosWebsite() {
     We take on a limited number of projects each year.
   </p>
   
+  <a
     href="/brief.html"
     target="_blank"
     rel="noopener noreferrer"
