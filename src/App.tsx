@@ -113,7 +113,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
     <motion.div
       initial={{ opacity: 0, y: 42, clipPath: "inset(0 0 100% 0)" }}
       whileInView={{ opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)" }}
-      viewport={{ once: true, amount: 0.28, margin: "-100px" }}
+      viewport={{ once: true, amount: 0.1, margin: "-40px" }}
       transition={{ duration: 1.1, delay, ease: easeExpo }}
     >
       {children}
@@ -518,13 +518,12 @@ function HomePage() {
             </p>
           </Reveal>
           <Reveal delay={0.18}>
-            <Link
-              to="/projects/alix-residence"
-              onClick={() => window.scrollTo(0, 0)}
+            <button
+              onClick={() => setPage('alix')}
               className={`mt-8 inline-block text-[10px] uppercase tracking-[0.38em] border-b pb-0.5 transition ${isDark ? "border-[#8c8378] text-[#8c8378] hover:text-[#d6d1cb] hover:border-[#d6d1cb]" : "border-[#6b645c] text-[#6b645c] hover:text-[#181512] hover:border-[#181512]"}`}
             >
               View project →
-            </Link>
+            </button>
           </Reveal>
         </div>
       </section>
@@ -566,8 +565,7 @@ function HomePage() {
                 Every project begins with a brief. Fill yours in before we meet — it takes under ten minutes and shapes everything that follows.
               </p>
             </Reveal>
-            <div className="mt-10">
-              <div className="mt-10 grid gap-6 max-w-md">
+            <div className="mt-10 grid gap-6 max-w-md">
   <p className={`text-[10px] uppercase tracking-[0.34em] ${isDark ? "text-[#6f6a63]" : "text-[#6b645c]"}`}>
     We take on a limited number of projects each year.
   </p>
@@ -589,7 +587,6 @@ function HomePage() {
     jaydenchoo.soap@gmail.com
   </p>
 </div>
-            </div>
             <div className="mt-8">
               <p className={`text-[10px] uppercase tracking-[0.44em] ${isDark ? "text-[#6f6a63]" : "text-[#6b645c]"}`}>SOAP STUDIOS</p>
               <p className={`mt-3 text-[10px] uppercase tracking-[0.34em] ${isDark ? "text-[#6f6a63]" : "text-[#6b645c]"}`}>
