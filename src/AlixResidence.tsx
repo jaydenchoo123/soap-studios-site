@@ -5,11 +5,11 @@ const easeExpo: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const img = {
   hero:     "/media/project2-hero.jpg",
-  living:   "/media/project2-narrative.jpg",
-  overview: "/media/project2-detail2.jpg",
+  living:   "/media/project2-narrative.png",
+  overview: "/media/project2-detail2.png",
   marble:   "/media/project2-detail3.jpg",
   entry:    "/media/project2-detail4.jpg",
-  bedroom:  "/media/project2-detail1.jpg",
+  bedroom:  "/media/project2-detail1.png",
   corridor: "/media/project2-detail5.jpg",
 };
 
