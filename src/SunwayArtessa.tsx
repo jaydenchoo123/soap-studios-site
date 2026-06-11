@@ -44,7 +44,7 @@ export default function SunwayArtessa({ onBack }: { onBack?: () => void }) {
         <button onClick={onBack} className="text-[10px] uppercase tracking-[0.3em] text-[#8c8378] hover:text-[#d6d1cb] transition">
           ← Soap Studios
         </button>
-        <span className="text-[10px] uppercase tracking-[0.22em] text-[#8c8378]">Residential · 2024</span>
+        <span className="text-[10px] uppercase tracking-[0.22em] text-[#8c8378]">Residential · 2025</span>
       </nav>
 
       {/* Header */}
@@ -61,7 +61,7 @@ export default function SunwayArtessa({ onBack }: { onBack?: () => void }) {
 
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15, ease: easeExpo }}
           className="grid grid-cols-3 gap-6 border-t border-white/[0.08] pt-8 max-w-md">
-          {[["Location", "Kuala Lumpur"], ["Type", "Residential"], ["Year", "2024"]].map(([label, value]) => (
+          {[["Location", "Kuala Lumpur"], ["Type", "Residential"], ["Year", "2025"]].map(([label, value]) => (
             <div key={label}>
               <p className="text-[9px] uppercase tracking-[0.22em] text-[#8c8378] mb-1.5">{label}</p>
               <p className="text-[13px] text-[#cfc8bf]">{value}</p>
