@@ -257,50 +257,49 @@ function Lightbox({ src, onClose }: { src: string; onClose: () => void }) {
   );
 }
 
-function ProjectGrid({ theme }: { theme: ThemeMode }) {
+function ProjectGrid({ theme, onViewProject }: { theme: ThemeMode; onViewProject: () => void }) {
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
   const card = theme === "dark"
     ? "border-white/10 bg-white/[0.02]"
-    : "border-black/10 bg-[#f3eee6] shadow-[0_10px_32px_rgba(0,0,0,0.10)]";
+    : "border-black/10 bg-[#f3eee6]";
 
   const images = [
-    { src: project2Hero, alt: "Alix Residence dining" },
-    { src: project2Narrative, alt: "Alix Residence living" },
-    { src: project2Detail2, alt: "Alix Residence overview" },
-    { src: project2Detail3, alt: "Alix Residence marble" },
-    { src: project2Detail4, alt: "Alix Residence entry" },
-    { src: project2Detail1, alt: "Alix Residence bedroom" },
-    { src: project2Detail5, alt: "Alix Residence corridor" },
+    { src: project2Hero, alt: "Dining room" },
+    { src: project2Narrative, alt: "Living room" },
+    { src: project2Detail3, alt: "Marble detail" },
+    { src: project2Detail4, alt: "Entry mirrors" },
   ];
 
   return (
     <>
       {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
-      <section className="pb-32 md:pb-40">
-        <div
-          className="flex gap-3 overflow-x-auto scrollbar-hide px-5 md:px-8"
-          style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
-        >
-          {images.map(({ src, alt }, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: 24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.9, delay: i * 0.05, ease: easeExpo }}
-              className={`group relative flex-none overflow-hidden rounded-2xl border cursor-zoom-in ${card}`}
-              style={{ scrollSnapAlign: "start", height: "280px", width: "auto", aspectRatio: "4/3" }}
-              onClick={() => setLightboxSrc(src)}
+      <section className="px-5 pb-16 md:px-8">
+        <div className="mx-auto max-w-[92rem]">
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
+            {images.map(({ src, alt }, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.9, delay: i * 0.08, ease: easeExpo }}
+                className={`group relative overflow-hidden rounded-2xl border cursor-zoom-in aspect-square ${card}`}
+                onClick={() => setLightboxSrc(src)}
+              >
+                <img src={src} alt={alt} className="w-full h-full object-cover transition duration-500 group-hover:brightness-[0.85] group-hover:scale-[1.03]" />
+              </motion.div>
+            ))}
+          </div>
+          <div className="mt-6">
+            <button
+              onClick={onViewProject}
+              className={`text-[11px] uppercase tracking-[0.28em] transition ${theme === "dark" ? "text-[#8c8378] hover:text-[#d6d1cb]" : "text-[#6b645c] hover:text-[#181512]"}`}
             >
-              <img src={src} alt={alt} className="h-full w-full object-cover transition duration-500 ease-out group-hover:brightness-[0.85] group-hover:scale-[1.03]" />
-            </motion.div>
-          ))}
-          <div className="flex-none w-8" />
+              View full project →
+            </button>
+          </div>
         </div>
-        <p className={`mt-5 px-5 md:px-8 text-[10px] uppercase tracking-[0.22em] ${theme === "dark" ? "text-[#8c8378]" : "text-[#6b645c]"}`}>
-          Scroll to explore · Click to enlarge
-        </p>
       </section>
     </>
   );
@@ -542,7 +541,7 @@ function HomePage() {
         </div>
       </section>
 
-      <ProjectGrid theme={theme} />
+      <ProjectGrid theme={theme} onViewProject={() => { window.scrollTo(0, 0); window.location.href = "/projects/alix-residence"; }} />
 
       <section className="px-5 py-24 md:px-8 md:py-32">
         <div className="mx-auto max-w-[72rem] grid gap-10 md:grid-cols-12 items-center">
