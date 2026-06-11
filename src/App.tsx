@@ -257,7 +257,9 @@ function Lightbox({ src, onClose }: { src: string; onClose: () => void }) {
   );
 }
 
-function ProjectHero({ theme, onViewProject }: { theme: ThemeMode; onViewProject: () => void }) {
+function ProjectHero({ theme, src, label, onViewProject }: { theme: ThemeMode; src?: string; label?: string; onViewProject: () => void }) {
+  const imgSrc = src ?? project2Hero;
+  const imgLabel = label ?? "Alix Residence · Kuala Lumpur";
   return (
     <section className="px-5 pb-24 md:px-8 md:pb-32">
       <div className="mx-auto max-w-[92rem]">
@@ -270,13 +272,13 @@ function ProjectHero({ theme, onViewProject }: { theme: ThemeMode; onViewProject
           onClick={onViewProject}
         >
           <img
-            src={project2Hero}
-            alt="Alix Residence"
+            src={imgSrc}
+            alt={imgLabel}
             className="w-full h-[80vh] object-cover transition duration-700 group-hover:brightness-[0.85]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <div className="absolute bottom-0 left-0 p-8 md:p-12">
-            <p className="text-[10px] uppercase tracking-[0.32em] text-white/50 mb-3">Alix Residence · Kuala Lumpur</p>
+            <p className="text-[10px] uppercase tracking-[0.32em] text-white/50 mb-3">{imgLabel}</p>
             <button
               onClick={onViewProject}
               className="text-[11px] uppercase tracking-[0.28em] text-white/70 hover:text-white transition border-b border-white/30 hover:border-white pb-0.5"
@@ -302,7 +304,7 @@ function HomePage() {
   const marqueeX = useSpring(useTransform(scrollYProgress, [0, 1], [0, -600]), { stiffness: 30, damping: 20 });
 
   const [theme, setTheme] = useState<ThemeMode>("dark");
-  const [page, setPage] = useState<'home' | 'alix'>('home');
+  const [page, setPage] = useState<'home' | 'alix' | 'sunway'>('home');
   const isDark = theme === "dark";
 
   const pageBg = isDark
@@ -322,6 +324,7 @@ function HomePage() {
     : "border-black/10 bg-[#f3eee6] text-[#181512] shadow-[0_10px_24px_rgba(0,0,0,0.12)]";
 
   if (page === 'alix') return <AlixResidence onBack={() => { setPage('home'); window.scrollTo(0, 0); }} />;
+  if (page === 'sunway') return <SunwayArtessa onBack={() => { setPage('home'); window.scrollTo(0, 0); }} />;
 
   return (
     <div className={pageBg} style={{ scrollBehavior: "smooth" }}>
@@ -450,13 +453,12 @@ function HomePage() {
             </p>
           </Reveal>
           <Reveal delay={0.18}>
-            <Link
-              to="/projects/sunway-artessa"
-              onClick={() => window.scrollTo(0, 0)}
+            <button
+              onClick={() => setPage('sunway')}
               className={`mt-8 inline-block text-[10px] uppercase tracking-[0.38em] border-b pb-0.5 transition ${isDark ? "border-[#8c8378] text-[#8c8378] hover:text-[#d6d1cb] hover:border-[#d6d1cb]" : "border-[#6b645c] text-[#6b645c] hover:text-[#181512] hover:border-[#181512]"}`}
             >
               View project →
-            </Link>
+            </button>
           </Reveal>
         </div>
       </section>
@@ -466,6 +468,8 @@ function HomePage() {
           <HeroRail theme={theme} />
         </div>
       </section>
+
+      <ProjectHero theme={theme} src={project1Hero} label="Sunway Artessa · Kuala Lumpur" onViewProject={() => setPage('sunway')} />
 
       <section className="px-5 py-20 md:px-8 md:py-28">
         <div className="mx-auto max-w-[56rem] text-center">
@@ -608,7 +612,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/projects/alix-residence" element={<AlixResidence onBack={() => window.history.back()} />} />
-      <Route path="/projects/sunway-artessa" element={<SunwayArtessa />} />
+      <Route path="/projects/sunway-artessa" element={<SunwayArtessa onBack={() => window.history.back()} />} />
     </Routes>
   );
 }

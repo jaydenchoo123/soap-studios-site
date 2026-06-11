@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const easeExpo: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -10,12 +10,13 @@ const images = [
   { src: "/media/project1-detail.jpg", alt: "Sunway Artessa detail" },
 ];
 
-export default function SunwayArtessa() {
+export default function SunwayArtessa({ onBack }: { onBack: () => void }) {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <div className="min-h-screen bg-[linear-gradient(to_bottom,#0a0a0a,#11100e)] text-[#d6d1cb]">
       <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-5 text-[10px] uppercase tracking-[0.38em]">
-        <Link to="/" className="text-[1.9rem] font-semibold tracking-[-0.09em]">SOAP</Link>
-        <Link to="/" className="text-[10px] uppercase tracking-[0.38em] text-[#8c8378] hover:text-[#d6d1cb] transition">← Back</Link>
+        <span className="text-[1.9rem] font-semibold tracking-[-0.09em]">SOAP</span>
+        <button onClick={onBack} className="text-[10px] uppercase tracking-[0.38em] text-[#8c8378] hover:text-[#d6d1cb] transition">← Back</button>
       </div>
 
       <div className="px-5 pt-40 pb-20 md:px-8">
