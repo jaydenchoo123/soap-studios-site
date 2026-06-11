@@ -111,9 +111,9 @@ function SectionLabel({ children, theme }: { children: React.ReactNode; theme: T
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 42, clipPath: "inset(0 0 100% 0)" }}
-      whileInView={{ opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)" }}
-      viewport={{ once: true, amount: 0.1, margin: "-40px" }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0 }}
       transition={{ duration: 1.1, delay, ease: easeExpo }}
     >
       {children}
