@@ -1,5 +1,5 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 const easeExpo: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -13,45 +13,13 @@ const img = {
   corridor: "/media/project2-detail5.jpg",
 };
 
-const allImages = Object.values(img);
-
-function Lightbox({ index, onClose }: { index: number; onClose: () => void }) {
-  const [i, setI] = useState(index);
-  useEffect(() => {
-    const h = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowRight") setI(n => (n + 1) % allImages.length);
-      if (e.key === "ArrowLeft") setI(n => (n - 1 + allImages.length) % allImages.length);
-    };
-    window.addEventListener("keydown", h);
-    document.body.style.overflow = "hidden";
-    return () => { window.removeEventListener("keydown", h); document.body.style.overflow = ""; };
-  }, [onClose]);
-
-  return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95"
-      onClick={onClose}
-    >
-      <motion.img key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }} src={allImages[i]} alt=""
-        className="max-h-[90vh] max-w-[88vw] object-contain"
-        onClick={e => e.stopPropagation()}
-      />
-      <button onClick={onClose} className="absolute top-6 right-8 text-white/40 hover:text-white text-[10px] uppercase tracking-[0.22em] transition">Close</button>
-      <button onClick={e => { e.stopPropagation(); setI(n => (n - 1 + allImages.length) % allImages.length); }} className="absolute left-6 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xl transition">←</button>
-      <button onClick={e => { e.stopPropagation(); setI(n => (n + 1) % allImages.length); }} className="absolute right-6 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xl transition">→</button>
-    </motion.div>
-  );
-}
-
-function Img({ src, alt = "", onClick, className = "" }: { src: string; alt?: string; onClick: () => void; className?: string }) {
+function Img({ src, alt = "", className = "" }: { src: string; alt?: string; className?: string }) {
   return (
     <motion.div initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }} transition={{ duration: 1.2, ease: easeExpo }}
-      className={`cursor-zoom-in group overflow-hidden ${className}`} onClick={onClick}
+      className={`overflow-hidden ${className}`}
     >
-      <img src={src} alt={alt} className="w-full h-auto block transition duration-600 group-hover:brightness-[0.88]" />
+      <img src={src} alt={alt} className="w-full h-auto block" />
     </motion.div>
   );
 }
@@ -68,17 +36,10 @@ function Para({ children }: { children: React.ReactNode }) {
 }
 
 export default function AlixResidence({ onBack }: { onBack: () => void }) {
-  const [lightbox, setLightbox] = useState<number | null>(null);
   useEffect(() => { window.scrollTo(0, 0); }, []);
-
-  const open = (src: string) => setLightbox(allImages.indexOf(src));
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_20%_20%,rgba(120,85,60,0.15),transparent_40%),linear-gradient(to_bottom,#0a0a0a,#0f0e0c)] text-[#d6d1cb]">
-
-      <AnimatePresence>
-        {lightbox !== null && <Lightbox index={lightbox} onClose={() => setLightbox(null)} />}
-      </AnimatePresence>
 
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-7 md:px-12 border-b border-white/[0.06]">
@@ -115,7 +76,7 @@ export default function AlixResidence({ onBack }: { onBack: () => void }) {
 
       {/* Hero image — full width */}
       <div className="px-6 md:px-12 pb-16">
-        <Img src={img.hero} onClick={() => open(img.hero)} />
+        <Img src={img.hero} />
       </div>
 
       {/* Section 1 — The space */}
@@ -128,8 +89,8 @@ export default function AlixResidence({ onBack }: { onBack: () => void }) {
       {/* Two images — living + overview */}
       <div className="px-6 md:px-12 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Img src={img.living} onClick={() => open(img.living)} />
-          <Img src={img.overview} onClick={() => open(img.overview)} className="md:mt-16" />
+          <Img src={img.living} />
+          <Img src={img.overview} className="md:mt-16" />
         </div>
       </div>
 
@@ -143,7 +104,7 @@ export default function AlixResidence({ onBack }: { onBack: () => void }) {
       {/* Marble detail — offset right */}
       <div className="px-6 md:px-12 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-          <Img src={img.marble} onClick={() => open(img.marble)} className="md:col-span-7 md:col-start-4" />
+          <Img src={img.marble} className="md:col-span-7 md:col-start-4" />
         </div>
       </div>
 
@@ -156,7 +117,7 @@ export default function AlixResidence({ onBack }: { onBack: () => void }) {
 
       {/* Entry image — full */}
       <div className="px-6 md:px-12 pb-16">
-        <Img src={img.entry} onClick={() => open(img.entry)} />
+        <Img src={img.entry} />
       </div>
 
       {/* Section 4 — Private spaces */}
@@ -169,8 +130,8 @@ export default function AlixResidence({ onBack }: { onBack: () => void }) {
       {/* Bedroom + corridor */}
       <div className="px-6 md:px-12 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Img src={img.bedroom} onClick={() => open(img.bedroom)} />
-          <Img src={img.corridor} onClick={() => open(img.corridor)} className="md:mt-24" />
+          <Img src={img.bedroom} />
+          <Img src={img.corridor} className="md:mt-24" />
         </div>
       </div>
 
