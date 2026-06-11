@@ -1,102 +1,96 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 
 const easeExpo: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const images = [
-  { src: "/media/project2-hero.jpg", alt: "Alix Residence dining" },
-  { src: "/media/project2-narrative.jpg", alt: "Alix Residence living" },
-  { src: "/media/project2-detail1.jpg", alt: "Alix Residence bedroom" },
-  { src: "/media/project2-detail2.jpg", alt: "Alix Residence overview" },
-  { src: "/media/project2-detail3.jpg", alt: "Alix Residence marble" },
-  { src: "/media/project2-detail4.jpg", alt: "Alix Residence entry" },
-  { src: "/media/project2-detail5.jpg", alt: "Alix Residence corridor" },
+  { src: "/media/project2-hero.jpg", caption: "Dining room — travertine table, linen drape" },
+  { src: "/media/project2-narrative.jpg", caption: "Living room — layered neutrals, low furniture" },
+  { src: "/media/project2-detail1.jpg", caption: "Primary bedroom — warm oak, sheer curtains" },
+  { src: "/media/project2-detail2.jpg", caption: "Overview — open plan with natural light" },
+  { src: "/media/project2-detail3.jpg", caption: "Detail — honed marble, brushed brass" },
+  { src: "/media/project2-detail4.jpg", caption: "Entry — smoked mirror, fluted panel" },
+  { src: "/media/project2-detail5.jpg", caption: "Corridor — reeded joinery, recessed lighting" },
 ];
 
-export default function AlixResidence() {
+export default function AlixResidence({ onBack }: { onBack: () => void }) {
   return (
-    <div className="min-h-screen bg-[linear-gradient(to_bottom,#0a0a0a,#11100e)] text-[#d6d1cb]">
-      <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-5 text-[10px] uppercase tracking-[0.38em]">
-        <Link to="/" className="text-[1.9rem] font-semibold tracking-[-0.09em]">SOAP</Link>
-        <Link to="/" className="text-[10px] uppercase tracking-[0.38em] text-[#8c8378] hover:text-[#d6d1cb] transition">← Back</Link>
+    <div className="min-h-screen bg-[#0c0b0a] text-[#d6d1cb]">
+
+      {/* Nav */}
+      <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-5 md:px-8">
+        <span className="text-[1.9rem] font-semibold tracking-[-0.09em]">SOAP</span>
+        <button
+          onClick={onBack}
+          className="text-[10px] uppercase tracking-[0.38em] text-[#8c8378] hover:text-[#d6d1cb] transition"
+        >
+          ← Back
+        </button>
       </div>
 
-      <div className="px-5 pt-40 pb-20 md:px-8">
-        <div className="mx-auto max-w-[92rem]">
+      {/* Header */}
+      <div className="px-5 pt-36 pb-16 md:px-8 md:pt-40 md:pb-20">
+        <div className="mx-auto max-w-[72rem]">
           <motion.p
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: easeExpo }}
             className="text-[10px] uppercase tracking-[0.44em] text-[#8c8378]"
           >
-            Alix Residence / Kuala Lumpur
+            Alix Residence · Kuala Lumpur · 2024
           </motion.p>
           <motion.h1
-            initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.06, ease: easeExpo }}
-            className="mt-5 text-4xl font-semibold tracking-[-0.05em] md:text-7xl"
+            className="mt-6 text-4xl font-semibold tracking-[-0.04em] leading-[1.05] md:text-6xl lg:text-7xl"
           >
             A home shaped by light,
-            <br className="hidden md:block" /> shadow, and desire.
+            <br /> shadow, and desire.
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, delay: 0.12, ease: easeExpo }}
-            className="mt-6 max-w-xl text-sm leading-7 text-[#a8a29b] md:text-base"
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.1, delay: 0.14, ease: easeExpo }}
+            className="mt-8 max-w-lg text-sm leading-7 text-[#8c8378] md:text-base"
           >
-            Designed to be felt, not just seen.
+            Designed to be felt, not just seen. A private residence in Kuala Lumpur completed with a focus on material honesty, considered proportion, and quiet luxury.
           </motion.p>
         </div>
       </div>
 
-      <div className="px-5 pb-32 md:px-8">
-        <div className="mx-auto max-w-[92rem] flex flex-col gap-5">
+      {/* Gallery */}
+      <div className="pb-40">
+        {images.map(({ src, caption }, i) => (
           <motion.div
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 1.2, ease: easeExpo }}
-            className="overflow-hidden rounded-[1.5rem] border border-white/10"
+            key={i}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.3, ease: easeExpo }}
+            className="mb-3 md:mb-4"
           >
-            <img src={images[0].src} alt={images[0].alt} className="w-full h-auto object-cover" />
+            <img
+              src={src}
+              alt={caption}
+              className="w-full h-auto block"
+            />
+            <div className="px-5 pt-4 pb-12 md:px-8 md:pb-16">
+              <p className="text-[10px] uppercase tracking-[0.32em] text-[#6f6a63]">{caption}</p>
+            </div>
           </motion.div>
+        ))}
+      </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.05, ease: easeExpo }}
-              className="overflow-hidden rounded-[1.5rem] border border-white/10 md:col-span-8"
-            >
-              <img src={images[1].src} alt={images[1].alt} className="w-full h-auto object-cover" />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.12, ease: easeExpo }}
-              className="overflow-hidden rounded-[1.5rem] border border-white/10 md:col-span-4"
-            >
-              <img src={images[2].src} alt={images[2].alt} className="w-full h-auto object-cover" />
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 1.2, ease: easeExpo }}
-            className="overflow-hidden rounded-[1.5rem] border border-white/10"
+      {/* Footer */}
+      <div className="px-5 py-16 md:px-8 border-t border-white/10">
+        <div className="mx-auto max-w-[72rem] flex items-center justify-between">
+          <p className="text-[10px] uppercase tracking-[0.38em] text-[#6f6a63]">Soap Studios · Kuala Lumpur</p>
+          <button
+            onClick={onBack}
+            className="text-[10px] uppercase tracking-[0.38em] text-[#8c8378] hover:text-[#d6d1cb] transition"
           >
-            <img src={images[3].src} alt={images[3].alt} className="w-full h-auto object-cover" />
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {images.slice(4).map((img, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 1.2, delay: i * 0.08, ease: easeExpo }}
-                className="overflow-hidden rounded-[1.5rem] border border-white/10"
-              >
-                <img src={img.src} alt={img.alt} className="w-full h-auto object-cover" />
-              </motion.div>
-            ))}
-          </div>
+            ← Back to home
+          </button>
         </div>
       </div>
+
     </div>
   );
 }

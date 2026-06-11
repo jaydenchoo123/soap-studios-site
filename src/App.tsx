@@ -257,51 +257,36 @@ function Lightbox({ src, onClose }: { src: string; onClose: () => void }) {
   );
 }
 
-function ProjectGrid({ theme, onViewProject }: { theme: ThemeMode; onViewProject: () => void }) {
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
-
-  const card = theme === "dark"
-    ? "border-white/10 bg-white/[0.02]"
-    : "border-black/10 bg-[#f3eee6]";
-
-  const images = [
-    { src: project2Hero, alt: "Dining room" },
-    { src: project2Narrative, alt: "Living room" },
-    { src: project2Detail3, alt: "Marble detail" },
-    { src: project2Detail4, alt: "Entry mirrors" },
-  ];
-
+function ProjectHero({ theme, onViewProject }: { theme: ThemeMode; onViewProject: () => void }) {
   return (
-    <>
-      {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
-      <section className="px-5 pb-16 md:px-8">
-        <div className="mx-auto max-w-[92rem]">
-          <div className="grid grid-cols-2 gap-3 md:gap-4">
-            {images.map(({ src, alt }, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.9, delay: i * 0.08, ease: easeExpo }}
-                className={`group relative overflow-hidden rounded-2xl border cursor-zoom-in aspect-square ${card}`}
-                onClick={() => setLightboxSrc(src)}
-              >
-                <img src={src} alt={alt} className="w-full h-full object-cover transition duration-500 group-hover:brightness-[0.85] group-hover:scale-[1.03]" />
-              </motion.div>
-            ))}
-          </div>
-          <div className="mt-6">
+    <section className="px-5 pb-24 md:px-8 md:pb-32">
+      <div className="mx-auto max-w-[92rem]">
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 1.3, ease: easeExpo }}
+          className="relative overflow-hidden rounded-2xl cursor-pointer group"
+          onClick={onViewProject}
+        >
+          <img
+            src={project2Hero}
+            alt="Alix Residence"
+            className="w-full h-[80vh] object-cover transition duration-700 group-hover:brightness-[0.85]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          <div className="absolute bottom-0 left-0 p-8 md:p-12">
+            <p className="text-[10px] uppercase tracking-[0.32em] text-white/50 mb-3">Alix Residence · Kuala Lumpur</p>
             <button
               onClick={onViewProject}
-              className={`text-[11px] uppercase tracking-[0.28em] transition ${theme === "dark" ? "text-[#8c8378] hover:text-[#d6d1cb]" : "text-[#6b645c] hover:text-[#181512]"}`}
+              className="text-[11px] uppercase tracking-[0.28em] text-white/70 hover:text-white transition border-b border-white/30 hover:border-white pb-0.5"
             >
               View full project →
             </button>
           </div>
-        </div>
-      </section>
-    </>
+        </motion.div>
+      </div>
+    </section>
   );
 }
 function HomePage() {
@@ -317,6 +302,7 @@ function HomePage() {
   const marqueeX = useSpring(useTransform(scrollYProgress, [0, 1], [0, -600]), { stiffness: 30, damping: 20 });
 
   const [theme, setTheme] = useState<ThemeMode>("dark");
+  const [page, setPage] = useState<'home' | 'alix'>('home');
   const isDark = theme === "dark";
 
   const pageBg = isDark
@@ -334,6 +320,8 @@ function HomePage() {
   const navButton = isDark
     ? "border-[#e7dfd1]/12 bg-[#12110f]/55 text-[#d6d1cb] backdrop-blur-md"
     : "border-black/10 bg-[#f3eee6] text-[#181512] shadow-[0_10px_24px_rgba(0,0,0,0.12)]";
+
+  if (page === 'alix') return <AlixResidence onBack={() => { setPage('home'); window.scrollTo(0, 0); }} />;
 
   return (
     <div className={pageBg} style={{ scrollBehavior: "smooth" }}>
@@ -541,7 +529,7 @@ function HomePage() {
         </div>
       </section>
 
-      <ProjectGrid theme={theme} onViewProject={() => { window.scrollTo(0, 0); window.location.href = "/projects/alix-residence"; }} />
+      <ProjectHero theme={theme} onViewProject={() => setPage('alix')} />
 
       <section className="px-5 py-24 md:px-8 md:py-32">
         <div className="mx-auto max-w-[72rem] grid gap-10 md:grid-cols-12 items-center">
@@ -622,7 +610,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/projects/alix-residence" element={<AlixResidence />} />
+      <Route path="/projects/alix-residence" element={<AlixResidence onBack={() => window.history.back()} />} />
       <Route path="/projects/sunway-artessa" element={<SunwayArtessa />} />
     </Routes>
   );
