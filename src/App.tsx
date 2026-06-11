@@ -1,6 +1,5 @@
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
 import AlixResidence from "./AlixResidence";
 import SunwayArtessa from "./SunwayArtessa";
 
@@ -607,12 +606,4 @@ function HomePage() {
   );
 }
 
-export default function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/projects/alix-residence" element={<AlixResidence onBack={() => window.history.back()} />} />
-      <Route path="/projects/sunway-artessa" element={<SunwayArtessa onBack={() => window.history.back()} />} />
-    </Routes>
-  );
-}
+export default function App() { return <HomePage />; }
