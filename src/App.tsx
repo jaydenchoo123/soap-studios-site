@@ -462,11 +462,6 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="px-5 pb-28 md:px-8 md:pb-32">
-        <div className="mx-auto max-w-[92rem]">
-          <HeroRail theme={theme} />
-        </div>
-      </section>
 
       <ProjectHero theme={theme} src={project1Hero} label="Sunway Artessa · Kuala Lumpur" onViewProject={() => setPage('sunway')} />
 
