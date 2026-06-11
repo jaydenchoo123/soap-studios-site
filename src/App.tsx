@@ -532,7 +532,13 @@ function HomePage() {
         <div className="mx-auto max-w-[72rem] grid gap-10 md:grid-cols-12 items-center">
           <div className="md:col-span-7">
             <p className={`text-base md:text-lg leading-8 ${theme === "dark" ? "text-[#cfc7bc]" : "text-[#3e3832]"}`}>
-              A boutique studio led by Jayden, working on a limited number of interiors each year.
+              Soap Studios is a boutique interior design practice led by Jayden Choo, working on a deliberately limited number of projects each year — residential, commercial, and hospitality.
+            </p>
+            <p className={`mt-6 text-sm md:text-base leading-8 ${theme === "dark" ? "text-[#a8a29b]" : "text-[#5a534c]"}`}>
+              Every project begins with understanding how a space is actually lived in — the routines, the rituals, the things that matter. From there, every decision is made with care: materials chosen for how they age, lighting designed for how it feels at ten in the morning and ten at night, furniture selected for comfort first.
+            </p>
+            <p className={`mt-6 text-sm md:text-base leading-8 ${theme === "dark" ? "text-[#a8a29b]" : "text-[#5a534c]"}`}>
+              The result is interiors that are calm, considered, and deeply personal — spaces that improve with living.
             </p>
           </div>
 
