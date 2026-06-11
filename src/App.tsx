@@ -465,6 +465,7 @@ function HomePage() {
           <Reveal delay={0.18}>
             <Link
               to="/projects/sunway-artessa"
+              onClick={() => window.scrollTo(0, 0)}
               className={`mt-8 inline-block text-[10px] uppercase tracking-[0.38em] border-b pb-0.5 transition ${isDark ? "border-[#8c8378] text-[#8c8378] hover:text-[#d6d1cb] hover:border-[#d6d1cb]" : "border-[#6b645c] text-[#6b645c] hover:text-[#181512] hover:border-[#181512]"}`}
             >
               View project →
@@ -532,6 +533,7 @@ function HomePage() {
           <Reveal delay={0.18}>
             <Link
               to="/projects/alix-residence"
+              onClick={() => window.scrollTo(0, 0)}
               className={`mt-8 inline-block text-[10px] uppercase tracking-[0.38em] border-b pb-0.5 transition ${isDark ? "border-[#8c8378] text-[#8c8378] hover:text-[#d6d1cb] hover:border-[#d6d1cb]" : "border-[#6b645c] text-[#6b645c] hover:text-[#181512] hover:border-[#181512]"}`}
             >
               View project →
