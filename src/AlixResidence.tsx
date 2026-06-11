@@ -54,8 +54,9 @@ export default function AlixResidence({ onBack }: { onBack: () => void }) {
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  const left = images.filter((_, i) => i % 2 === 0);
-  const right = images.filter((_, i) => i % 2 !== 0);
+  const left = images.filter((_, i) => i % 3 === 0);
+  const middle = images.filter((_, i) => i % 3 === 1);
+  const right = images.filter((_, i) => i % 3 === 2);
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_20%_20%,rgba(120,85,60,0.18),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(90,70,50,0.12),transparent_45%),linear-gradient(to_bottom,#0a0a0a,#11100e,#0c0b0a)] text-[#d6d1cb]">
@@ -91,7 +92,7 @@ export default function AlixResidence({ onBack }: { onBack: () => void }) {
 
       {/* Masonry grid */}
       <div className="px-6 md:px-10 pb-24">
-        <div className="grid grid-cols-2 gap-3 md:gap-4 items-start">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 items-start">
           {/* Left column */}
           <div className="flex flex-col gap-3 md:gap-4">
             {left.map((src, i) => (
@@ -102,9 +103,25 @@ export default function AlixResidence({ onBack }: { onBack: () => void }) {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 1, delay: i * 0.06, ease: easeExpo }}
                 className="cursor-zoom-in overflow-hidden group"
-                onClick={() => setLightboxIndex(i * 2)}
+                onClick={() => setLightboxIndex(i * 3)}
               >
-                <img src={src} alt="" className="w-full h-auto block transition duration-500 group-hover:brightness-[0.85]" />
+                <img src={src} alt="" className="w-full h-auto block max-w-full transition duration-500 group-hover:brightness-[0.85]" />
+              </motion.div>
+            ))}
+          </div>
+          {/* Middle column — offset slightly */}
+          <div className="flex flex-col gap-3 md:gap-4 mt-6">
+            {middle.map((src, i) => (
+              <motion.div
+                key={src}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 1, delay: i * 0.06 + 0.07, ease: easeExpo }}
+                className="cursor-zoom-in overflow-hidden group"
+                onClick={() => setLightboxIndex(i * 3 + 1)}
+              >
+                <img src={src} alt="" className="w-full h-auto block max-w-full transition duration-500 group-hover:brightness-[0.85]" />
               </motion.div>
             ))}
           </div>
@@ -116,11 +133,11 @@ export default function AlixResidence({ onBack }: { onBack: () => void }) {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 1, delay: i * 0.06 + 0.1, ease: easeExpo }}
+                transition={{ duration: 1, delay: i * 0.06 + 0.14, ease: easeExpo }}
                 className="cursor-zoom-in overflow-hidden group"
-                onClick={() => setLightboxIndex(i * 2 + 1)}
+                onClick={() => setLightboxIndex(i * 3 + 2)}
               >
-                <img src={src} alt="" className="w-full h-auto block transition duration-500 group-hover:brightness-[0.85]" />
+                <img src={src} alt="" className="w-full h-auto block max-w-full transition duration-500 group-hover:brightness-[0.85]" />
               </motion.div>
             ))}
           </div>
